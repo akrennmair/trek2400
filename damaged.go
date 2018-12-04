@@ -11,7 +11,7 @@ func damaged(dev int) bool {
 	d := dev
 
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &events[i]
+		e := &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}

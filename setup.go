@@ -83,6 +83,7 @@ func setup() {
 
 	f := float64(game.skill)
 	f = math.Log(f + 0.5)
+	param.damfac = map[int]float64{}
 	for i := range devices {
 		param.damfac[i] = f
 	}
@@ -229,7 +230,7 @@ func setup() {
 	}
 
 	/* initialize this quadrant */
-	fmt.Printf("%d Klings\n%d starbase", param.klings, param.bases)
+	fmt.Printf("%d Klingons\n%d starbase", param.klings, param.bases)
 	if param.bases > 1 {
 		fmt.Printf("s")
 	}

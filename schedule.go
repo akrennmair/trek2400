@@ -18,7 +18,7 @@ import (
 func schedule(typ int, offset float64, x, y, z int) *event {
 	date := now.date + offset
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &events[i]
+		e := &eventList[i]
 		if e.evcode != 0 {
 			continue
 		}
@@ -33,6 +33,18 @@ func schedule(typ int, offset float64, x, y, z int) *event {
 	}
 
 	panic(fmt.Sprintf("Cannot schedule event %d parm %d %d %d", typ, x, y, z))
+}
+
+/*
+**  UNSCHEDULE AN EVENT
+**
+**      The event at slot 'e' is deleted.
+ */
+
+func unschedule(e *event) {
+	now.eventptr[e.evcode&E_EVENT] = nil
+	e.date = TOOLARGE
+	e.evcode = 0
 }
 
 /*

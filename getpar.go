@@ -10,6 +10,7 @@ type cvntab struct {
 	full      string
 	boolValue bool
 	intValue  int
+	funcValue func(int)
 }
 
 var Yntab = []cvntab{
@@ -102,4 +103,18 @@ func readToken() (string, error) {
 	}
 
 	return buf.String(), nil
+}
+
+/**
+ **     scan for newline
+ **/
+func skiptonl(c byte) {
+	for c != '\n' {
+		var err error
+		c, err = stdin.ReadByte()
+		if err != nil {
+			return
+		}
+	}
+	stdin.UnreadByte()
 }

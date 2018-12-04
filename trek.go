@@ -67,6 +67,23 @@ const (
 	KLINGON    = 'K'
 	INHABIT    = '@'
 	HOLE       = ' '
+
+	/* you lose codes */
+	L_NOTIME   = 1  /* ran out of time */
+	L_NOENGY   = 2  /* ran out of energy */
+	L_DSTRYD   = 3  /* destroyed by a Klingon */
+	L_NEGENB   = 4  /* ran into the negative energy barrier */
+	L_SUICID   = 5  /* destroyed in a nova */
+	L_SNOVA    = 6  /* destroyed in a supernova */
+	L_NOLIFE   = 7  /* life support died (so did you) */
+	L_NOHELP   = 8  /* you could not be rematerialized */
+	L_TOOFAST  = 9  /* pretty stupid going at warp 10 */
+	L_STAR     = 10 /* ran into a star */
+	L_DSTRCT   = 11 /* self destructed */
+	L_CAPTURED = 12 /* captured by Klingons */
+	L_NOCREW   = 13 /* you ran out of crew */
+
+	TOOLARGE = 1e50
 )
 
 type Game struct {
@@ -77,7 +94,7 @@ type Game struct {
 	kills     int  /* number of stars killed */
 	skill     int  /* skill rating of player */
 	length    int  /* length of game */
-	killed    int  /* set if you were killed */
+	killed    bool /* set if you were killed */
 	killinhab int  /* number of inhabited starsystems killed */
 	tourn     bool /* set if a tournament game */
 	//passwd string /* game password */
@@ -146,7 +163,7 @@ type event struct {
 	systemname int     /* starsystem name */
 }
 
-var events [MAXEVENTS]event
+var eventList [MAXEVENTS]event
 
 type Ship struct {
 	warp      float64 /* warp factor */
@@ -210,7 +227,7 @@ var quad [NQUADS][NQUADS]quadrant
 
 type Move struct {
 	free    bool    /* set if a move is free */
-	endgame bool    /* end of game flag */
+	endgame int     /* end of game flag */
 	shldchg bool    /* set if shields changed this move */
 	newquad bool    /* set if just entered this quadrant */
 	resting bool    /* set if this move is a rest */
