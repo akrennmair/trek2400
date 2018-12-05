@@ -3,7 +3,45 @@ package main
 import "fmt"
 
 func killb(qx, qy int) {
-	// TODO: implement
+	q := &quad[qx][qy]
+
+	if q.bases <= 0 {
+		return
+	}
+
+	if !damaged(SSRADIO) {
+		/* then update starchart */
+		if q.scanned < 1000 {
+			q.scanned -= 10
+		} else if q.scanned > 1000 {
+			q.scanned = -1
+		}
+	}
+
+	q.bases = 0
+	now.bases -= 1
+	var b *xy
+	for i := 0; i < MAXBASES; i++ {
+		b = &now.base[i]
+		if qx == b.x && qy == b.y {
+			break
+		}
+	}
+	*b = now.base[now.bases]
+	if qx == ship.quadx && qx == ship.quady {
+		sect[etc.starbase.x][etc.starbase.y] = EMPTY
+		if ship.cond == DOCKED {
+			undock(0)
+		}
+		fmt.Printf("Starbase at %d,%d destroyed\n", etc.starbase.x, etc.starbase.y)
+	} else {
+		if !damaged(SSRADIO) {
+			fmt.Printf("Uhura: Starfleet command reports that the starbase in\n")
+			fmt.Printf("   quadrant %d,%d has been destroyed\n", qx, qy)
+		} else {
+			schedule(E_KATSB|E_GHOST, TOOLARGE, qx, qy, 0)
+		}
+	}
 }
 
 func killd(x, y, f int) {
@@ -24,7 +62,7 @@ func killd(x, y, f int) {
 		case E_ENSLV, E_REPRO:
 			if f != 0 {
 				fmt.Printf("Distress call for %s in quadrant %d,%d nullified\n",
-					systemname[e.systemname], x, y)
+					systemnameList[e.systemname], x, y)
 				q.qsystemname = e.systemname
 				unschedule(e)
 			} else {
@@ -34,7 +72,7 @@ func killd(x, y, f int) {
 	}
 }
 
-var systemname = []string{
+var systemnameList = []string{
 	"ERROR",
 	"Talos IV",
 	"Rigel III",

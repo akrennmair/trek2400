@@ -226,7 +226,7 @@ func events(timeWarp bool) {
 			/* tell the captain about it if we can */
 			if !damaged(SSRADIO) {
 				fmt.Printf("\nUhura: Captain, starsystem %s in quadrant %d,%d is under attack\n",
-					systemname[e.systemname], ix, iy)
+					systemnameList[e.systemname], ix, iy)
 				restcancel++
 			} else {
 				/* if we can't tell him, make it invisible */
@@ -250,7 +250,7 @@ func events(timeWarp bool) {
 			/* report the disaster if we can */
 			if !damaged(SSRADIO) {
 				fmt.Printf("\nUhura:  We've lost contact with starsystem %s\n",
-					systemname[e.systemname])
+					systemnameList[e.systemname])
 				fmt.Printf("  in quadrant %d,%d.\n", e.x, e.y)
 			} else {
 				e.evcode |= E_HIDDEN
