@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+func killb(qx, qy int) {
+	// TODO: implement
+}
+
 func killd(x, y, f int) {
 	q := &quad[x][y]
 

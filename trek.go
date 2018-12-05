@@ -10,6 +10,10 @@ const (
 	MAXBASES = 9
 
 	MAXEVENTS = 25
+	MAXDISTR  = 5 /* maximum concurrent distress calls */
+
+	Q_DISTRESSED = 0200
+	Q_SYSTEM     = 077
 
 	MAXKLQUAD = 9 /* maximum klingons per quadrant */
 

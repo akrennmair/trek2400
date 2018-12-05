@@ -58,3 +58,25 @@ func xsched(ev1, factor, x, y, z int) *event {
 	when := -param.eventdly[ev1] * param.time * math.Log(franf()) / float64(factor)
 	return schedule(ev1, when, x, y, z)
 }
+
+/*
+**  RESCHEDULE AN EVENT
+**
+**      The event pointed to by 'e' is rescheduled to the current
+**      time plus 'offset'.
+ */
+func reschedule(e *event, offset float64) {
+	date := now.date + offset
+	e.date = date
+}
+
+/*
+**  Simplified reschedule routine
+**
+**      Parameters are the event index, the initial date, and the
+**      division factor.  Look at the code to see what really happens.
+ */
+func xresched(e *event, ev, factor int) {
+	when := float64(-param.eventdly[ev]) * param.time * math.Log(franf()) / float64(factor)
+	reschedule(e, when)
+}
