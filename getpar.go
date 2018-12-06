@@ -169,3 +169,21 @@ func testterm() bool {
 	}
 	return true
 }
+
+func readdelim(d byte) bool {
+	for {
+		c, _ := stdin.ReadByte()
+		if c == 0 {
+			break
+		}
+		if c == d {
+			return true
+		}
+		if c == ' ' {
+			continue
+		}
+		stdin.UnreadByte()
+		break
+	}
+	return false
+}

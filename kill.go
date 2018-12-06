@@ -2,6 +2,37 @@ package main
 
 import "fmt"
 
+func killk(ix, iy int) {
+	fmt.Printf("   *** Klingon at %d,%d destroyed ***\n", ix, iy)
+
+	/* remove the scoundrel */
+	now.klings -= 1
+	sect[ix][iy] = EMPTY
+	quad[ship.quadx][ship.quady].klings -= 1
+	quad[ship.quadx][ship.quady].scanned -= 100
+	game.killk += 1
+
+	/* find the Klingon in the Klingon list */
+	for i := 0; i < etc.nkling; i++ {
+		if ix == etc.klingon[i].x && iy == etc.klingon[i].y {
+			/* purge him from the list */
+			etc.nkling -= 1
+			for ; i < etc.nkling; i++ {
+				etc.klingon[i] = etc.klingon[i+1]
+			}
+			break
+		}
+	}
+
+	/* find out if that was the last one */
+	if now.klings <= 0 {
+		win()
+	}
+
+	/* recompute the time left */
+	now.time = now.resource / float64(now.klings)
+}
+
 func killb(qx, qy int) {
 	q := &quad[qx][qy]
 
