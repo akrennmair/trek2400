@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+func dock(v int) {
+	// TODO: implement
+}
+
 func undock(_ int) {
 	if ship.cond != DOCKED {
 		fmt.Printf("Sulu: Pardon me captain, but we are not docked.\n")

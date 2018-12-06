@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"os"
 )
 
 type cvntab struct {
@@ -117,4 +118,54 @@ func skiptonl(c byte) {
 		}
 	}
 	stdin.UnreadByte()
+}
+
+func getintpar(s string) int {
+	for {
+		if testnl() && s != "" {
+			fmt.Printf("%s: ", s)
+		}
+		var n int
+		i, err := fmt.Scanf("%d", &n)
+		if i < 0 || err != nil {
+			os.Exit(1)
+		}
+		if i > 0 && testterm() {
+			return n
+		}
+		fmt.Printf("invalid input; please enter an integer\n")
+		skiptonl(0)
+	}
+}
+
+func getfltpar(s string) float64 {
+	for {
+		if testnl() && s != "" {
+			fmt.Printf("%s: ", s)
+		}
+		var d float64
+		i, err := fmt.Scan("%lf", &d)
+		if i < 0 || err != nil {
+			os.Exit(1)
+		}
+		if i > 0 && testterm() {
+			return d
+		}
+		fmt.Printf("invalid input; please enter a double\n")
+		skiptonl(0)
+	}
+}
+
+func testterm() bool {
+	c, _ := stdin.ReadByte()
+	if c != 0 {
+		return true
+	}
+	if c == '.' {
+		return false
+	}
+	if c == '\n' || c == ';' {
+		stdin.UnreadByte()
+	}
+	return true
 }
