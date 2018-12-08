@@ -169,7 +169,11 @@ func setup() {
 	param.navigcrud = []float64{1.50, 0.75}
 	param.cloakenergy = 1000
 	param.energylow = 1000
-	// TODO: declare Event array, initialize
+
+	for i := 0; i < MAXEVENTS; i++ {
+		e := &eventList[i]
+		e.date = TOOLARGE
+	}
 
 	xsched(E_SNOVA, 1, 0, 0, 0)
 	xsched(E_LRTB, param.klings, 0, 0, 0)

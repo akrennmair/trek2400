@@ -103,6 +103,37 @@ func killd(x, y, f int) {
 	}
 }
 
+func kills(x, y, f int) {
+	var (
+		q    *quadrant
+		e    *event
+		name string
+	)
+
+	if f != 0 {
+		q = &quad[ship.quadx][ship.quady]
+		sect[x][y] = EMPTY
+		name = systemname(q)
+		if name == "" {
+			return
+		}
+		fmt.Printf("Inhabited starsystem %s at %d,%d destroyed\n", name, x, y)
+		if f < 0 {
+			game.killinhab += 1
+		}
+	} else {
+		q = &quad[x][y]
+	}
+	if q.qsystemname&Q_DISTRESSED != 0 {
+		/* distressed starsystem */
+		e = &eventList[q.qsystemname&Q_SYSTEM]
+		fmt.Printf("Distress call for %s invalidated\n", systemnameList[e.systemname])
+		unschedule(e)
+	}
+	q.qsystemname = 0
+	q.stars -= 1
+}
+
 var systemnameList = []string{
 	"ERROR",
 	"Talos IV",
