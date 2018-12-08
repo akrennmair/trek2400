@@ -8,7 +8,7 @@ func rest(v int) {
 		return
 	}
 
-	percent := 100*t/now.time + 0.5
+	percent := int(100*t/now.time + 0.5)
 	if percent >= 70 {
 		fmt.Printf("Spock: That would take %d%% of our remaining time.\n", percent)
 		if !getynpar("Are you really certain that is wise") {

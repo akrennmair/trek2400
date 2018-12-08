@@ -76,6 +76,6 @@ func score() int {
 	if t != 0 {
 		fmt.Printf("%d casualties\t\t\t\t%6d\n", u, t)
 	}
-	fmt.Printf("\n***  TOTAL\t\t\t%14ld\n", s)
+	fmt.Printf("\n***  TOTAL\t\t\t%14d\n", s)
 	return s
 }

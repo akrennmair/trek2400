@@ -126,7 +126,7 @@ func computer(v int) {
 			}
 			dist *= 10.0
 			cost := math.Pow(0.9, dist)*98.0 + 0.5
-			fmt.Printf("Phasers are %d%% effective at that range\n", cost)
+			fmt.Printf("Phasers are %d%% effective at that range\n", int(cost))
 
 		case 6: /* warp cost (time/energy) */
 			dist := getfltpar("distance")
@@ -140,7 +140,7 @@ func computer(v int) {
 			cost := (dist + 0.05) * warpfact * warpfact * warpfact
 			p_time := float64(param.warptime) * dist / (warpfact * warpfact)
 			fmt.Printf("Warp %.2f distance %.2f cost %.2f stardates %d (%d w/ shlds up) units\n",
-				warpfact, dist, p_time, cost, cost+cost)
+				warpfact, dist, p_time, int(cost), int(cost+cost))
 
 		case 7: /* impulse cost */
 			dist := getfltpar("distance")
@@ -149,7 +149,7 @@ func computer(v int) {
 			}
 			cost := 20 + 100*dist
 			p_time := dist / 0.095
-			fmt.Printf("Distance %.2f cost %.2f stardates %d units\n", dist, p_time, cost)
+			fmt.Printf("Distance %.2f cost %.2f stardates %d units\n", dist, p_time, int(cost))
 
 		case 8: /* distresslist */
 			j := true

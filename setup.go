@@ -124,7 +124,7 @@ func setup() {
 		sum += v
 	}
 	if sum != 1000 {
-		panic(fmt.Sprintf("Device probabilities sum to %d", sum))
+		panic(fmt.Sprintf("Device probabilities sum to %f", sum))
 	}
 
 	param.dockfac = 0.5

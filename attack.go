@@ -60,14 +60,14 @@ func attack(resting bool) {
 			ship.shield -= int(shldabsb)
 		}
 		/* actually do the hit */
-		fmt.Printf("\aHIT: %d units", hit)
+		fmt.Printf("\aHIT: %d units", int(hit))
 		if !damaged(SRSCAN) {
-			fmt.Printf("% from %d,%d", etc.klingon[i].x, etc.klingon[i].y)
+			fmt.Printf(" from %d,%d", etc.klingon[i].x, etc.klingon[i].y)
 		}
 		cas := (shldabsb * 100) / hit
 		hit -= shldabsb
 		if shldabsb > 0 {
-			fmt.Printf(", shields absorb %d%%, effective hit %d\n", cas, hit)
+			fmt.Printf(", shields absorb %d%%, effective hit %d\n", int(cas), int(hit))
 		} else {
 			fmt.Printf("\n")
 		}
@@ -104,7 +104,7 @@ func attack(resting bool) {
 	if maxhit >= 200 || tothit >= 500 {
 		cas := tothit * 0.015 * franf()
 		if cas >= 2 {
-			fmt.Printf("McCoy: we suffered %d casualties in that attack.\n", cas)
+			fmt.Printf("McCoy: we suffered %d casualties in that attack.\n", int(cas))
 			game.deaths += int(cas)
 			ship.crew -= int(cas)
 		}

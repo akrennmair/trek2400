@@ -50,7 +50,7 @@ func visual(z int) {
 	} else {
 		c = sect[ix][iy]
 	}
-	fmt.Printf("%c ", ix, iy, c)
+	fmt.Printf("%c ", c)
 
 	co++
 	v = &visdelta[co]

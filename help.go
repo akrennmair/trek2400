@@ -71,15 +71,18 @@ func help(v int) {
 		time.Sleep(2 * time.Second)
 		fmt.Printf("%s attept to rematerialize ", cntvect[i])
 		if franf() > x {
-			dx = etc.starbase.x + ranf(3) - 1
-			if dx < 0 || dx >= NSECTS {
-				continue
+			/* ok, that's good.  let's see if we can set her down */
+			for j = 0; j < 5; j++ {
+				dx = etc.starbase.x + ranf(3) - 1
+				if dx < 0 || dx >= NSECTS {
+					continue
+				}
+				dy = etc.starbase.y + ranf(3) - 1
+				if dy < 0 || dy >= NSECTS || sect[dx][dy] != EMPTY {
+					continue
+				}
+				break
 			}
-			dy = etc.starbase.y + ranf(3) - 1
-			if dy < 0 || dy >= NSECTS || sect[dx][dy] != EMPTY {
-				continue
-			}
-			break
 			if j < 5 {
 				/* found an empty spot */
 				fmt.Printf("succeeds\n")
