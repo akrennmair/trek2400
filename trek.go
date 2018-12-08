@@ -91,20 +91,20 @@ const (
 )
 
 type Game struct {
-	killk     int  /* number of klingons killed */
-	deaths    int  /* number of deaths onboard Enterprise */
-	negenbar  int  /* number of hits on negative energy barrier */
-	killb     int  /* number of starbases killed */
-	kills     int  /* number of stars killed */
-	skill     int  /* skill rating of player */
-	length    int  /* length of game */
-	killed    bool /* set if you were killed */
-	killinhab int  /* number of inhabited starsystems killed */
-	tourn     bool /* set if a tournament game */
-	//passwd string /* game password */
-	snap     bool /* set if snapshot taken */
-	helps    int  /* number of help calls */
-	captives int  /* total number of captives taken */
+	killk     int    /* number of klingons killed */
+	deaths    int    /* number of deaths onboard Enterprise */
+	negenbar  int    /* number of hits on negative energy barrier */
+	killb     int    /* number of starbases killed */
+	kills     int    /* number of stars killed */
+	skill     int    /* skill rating of player */
+	length    int    /* length of game */
+	killed    bool   /* set if you were killed */
+	killinhab int    /* number of inhabited starsystems killed */
+	tourn     bool   /* set if a tournament game */
+	passwd    string /* game password */
+	snap      bool   /* set if snapshot taken */
+	helps     int    /* number of help calls */
+	captives  int    /* total number of captives taken */
 }
 
 var game Game
@@ -233,7 +233,7 @@ type Move struct {
 	free    bool    /* set if a move is free */
 	endgame int     /* end of game flag */
 	shldchg bool    /* set if shields changed this move */
-	newquad bool    /* set if just entered this quadrant */
+	newquad int     /* set if just entered this quadrant */
 	resting bool    /* set if this move is a rest */
 	time    float64 /* time used this move */
 }

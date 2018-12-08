@@ -73,7 +73,7 @@ func initquad(f int) {
 		sect[rx][ry] = STAR
 	}
 
-	move.newquad = true
+	move.newquad = 1
 }
 
 func sector() (x, y int) {

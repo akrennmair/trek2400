@@ -187,3 +187,16 @@ func readdelim(d byte) bool {
 	}
 	return false
 }
+
+func getstrpar(s string) string {
+	if s != "" {
+		fmt.Printf("%s: ", s)
+	}
+	skiptonl(0)
+	stdin.ReadByte()
+	answer, err := readToken()
+	if err != nil {
+		panic(err)
+	}
+	return answer
+}

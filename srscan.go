@@ -99,6 +99,7 @@ func srscan(f int) {
 		fmt.Printf("Length, Skill %s, ", p.full)
 		p = &skilltab[game.skill-1]
 		fmt.Printf("%s\n", p.full)
+		return
 	}
 	fmt.Printf("  ")
 	for i := 0; i < NSECTS; i++ {
@@ -110,7 +111,7 @@ func srscan(f int) {
 		fmt.Printf("Distressed ")
 	}
 	if q.qsystemname != 0 {
-		fmt.Printf("Startsystem %s\n", systemname(q))
+		fmt.Printf("Starsystem %s\n", systemname(q))
 	}
 }
 

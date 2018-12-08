@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
 )
 
 var (
@@ -35,6 +36,17 @@ func setup() {
 
 	r := getcodpar("What skill game", skilltab)
 	game.skill = r.intValue
+	game.tourn = false
+	game.passwd = getstrpar("Enter a password")
+	if game.passwd == "tournament" {
+		game.passwd = getstrpar("Enter tournament code")
+		game.tourn = true
+		d := int64(0)
+		for i := 0; i < len(game.passwd); i++ {
+			d += int64(game.passwd[i]) << uint(i)
+		}
+		rand.Seed(d)
+	}
 
 	param.bases = ranf(6-game.skill) + 2
 	now.bases = param.bases

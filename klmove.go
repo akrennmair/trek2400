@@ -14,18 +14,13 @@ func klmove(fl bool) {
 		if fl {
 			flint = 1
 		}
-		nq := 0
-		if move.newquad {
-			nq = 1
-		}
-
-		if float64(ranf(i)) >= param.moveprob[2*nq+flint] {
+		if float64(ranf(i)) >= param.moveprob[2*move.newquad+flint] {
 			continue
 		}
 
 		/* compute distance to move */
 		motion := ranf(75) - 25
-		motion = int(float64(motion) * (k.avgdist * param.movefac[2*nq+flint]))
+		motion = int(float64(motion) * (k.avgdist * param.movefac[2*move.newquad+flint]))
 		/* compute direction */
 		dx := ship.sectx - k.x + ranf(3) - 1
 		dy := ship.secty - k.y + ranf(3) - 1

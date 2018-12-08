@@ -31,7 +31,7 @@ func play() {
 		move.free = true
 		move.time = 0.0
 		move.shldchg = false
-		move.newquad = false
+		move.newquad = 0
 		move.resting = false
 		skiptonl(0)
 		r := getcodpar("\nCommand", comtab)
