@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type cvntab struct {
@@ -36,7 +37,8 @@ func getcodpar(s string, tab []cvntab) *cvntab {
 			stdin.ReadByte() /* throw out the newline */
 		}
 
-		input, err := readToken()
+		skipchars(" \t;")
+		input, err := readToken(" \t;\n")
 		if err != nil {
 			panic(err)
 		}
@@ -59,12 +61,13 @@ func getcodpar(s string, tab []cvntab) *cvntab {
 		}
 
 		for _, t := range tab {
-			if t.abrev == input || t.full == input {
+			if (t.abrev != "" && t.abrev == input) || (t.full != "" && t.full == input) {
 				return &t
 			}
 		}
 
 		fmt.Printf("invalid input; ? for valid inputs\n")
+		skiptonl()
 	}
 }
 
@@ -87,15 +90,15 @@ func testnl() bool {
 	return true
 }
 
-func readToken() (string, error) {
+func readToken(charset string) (string, error) {
 	var buf bytes.Buffer
 
 	for {
 		c, err := stdin.ReadByte()
 		if err != nil {
-			return "", err
+			break
 		}
-		if c == ' ' || c == '\t' || c == ';' || c == '\n' {
+		if strings.IndexByte(charset, c) >= 0 {
 			stdin.UnreadByte()
 			break
 		}
@@ -109,12 +112,14 @@ func readToken() (string, error) {
 /**
  **     scan for newline
  **/
-func skiptonl(c byte) {
-	for c != '\n' {
-		var err error
-		c, err = stdin.ReadByte()
+func skiptonl() {
+	for {
+		c, err := stdin.ReadByte()
 		if err != nil {
 			return
+		}
+		if c == '\n' {
+			break
 		}
 	}
 	stdin.UnreadByte()
@@ -122,11 +127,14 @@ func skiptonl(c byte) {
 
 func getintpar(s string) int {
 	for {
-		if testnl() && s != "" {
-			fmt.Printf("%s: ", s)
+		if testnl() {
+			if s != "" {
+				fmt.Printf("%s: ", s)
+			}
+			stdin.ReadByte()
 		}
 		var n int
-		i, err := fmt.Scanf("%d", &n)
+		i, err := fmt.Fscanf(stdin, "%d", &n)
 		if i < 0 || err != nil {
 			os.Exit(1)
 		}
@@ -134,17 +142,20 @@ func getintpar(s string) int {
 			return n
 		}
 		fmt.Printf("invalid input; please enter an integer\n")
-		skiptonl(0)
+		skiptonl()
 	}
 }
 
 func getfltpar(s string) float64 {
 	for {
-		if testnl() && s != "" {
-			fmt.Printf("%s: ", s)
+		if testnl() {
+			if s != "" {
+				fmt.Printf("%s: ", s)
+			}
+			stdin.ReadByte()
 		}
 		var d float64
-		i, err := fmt.Scan("%lf", &d)
+		i, err := fmt.Fscanf(stdin, "%f", &d)
 		if i < 0 || err != nil {
 			os.Exit(1)
 		}
@@ -152,7 +163,7 @@ func getfltpar(s string) float64 {
 			return d
 		}
 		fmt.Printf("invalid input; please enter a double\n")
-		skiptonl(0)
+		skiptonl()
 	}
 }
 
@@ -192,11 +203,44 @@ func getstrpar(s string) string {
 	if s != "" {
 		fmt.Printf("%s: ", s)
 	}
-	skiptonl(0)
+	skiptonl()
 	stdin.ReadByte()
-	answer, err := readToken()
-	if err != nil {
+
+	var answer string
+	if _, err := fmt.Scanf("%s", &answer); err != nil {
 		panic(err)
 	}
 	return answer
+
+	/*
+		for {
+			if testnl() {
+				if s != "" {
+					fmt.Printf("%s: ", s)
+				}
+				stdin.ReadByte()
+			}
+
+			answer, err := readToken("\t ;")
+			if err != nil {
+				panic(err)
+			}
+			if answer != "" {
+				return answer
+			}
+		}
+	*/
+}
+
+func skipchars(charset string) {
+	for {
+		c, err := stdin.ReadByte()
+		if c == 0 && err != nil {
+			os.Exit(1)
+		}
+		if strings.IndexByte(charset, c) < 0 {
+			stdin.UnreadByte()
+			return
+		}
+	}
 }

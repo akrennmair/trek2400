@@ -33,7 +33,7 @@ func play() {
 		move.shldchg = false
 		move.newquad = 0
 		move.resting = false
-		skiptonl(0)
+		skiptonl()
 		r := getcodpar("\nCommand", comtab)
 		r.funcValue(r.intValue)
 		events(false)

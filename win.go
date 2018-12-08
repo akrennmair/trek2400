@@ -23,6 +23,6 @@ func win() {
 		}
 	}
 
-	skiptonl(0)
+	skiptonl()
 	panic(endofgame{})
 }

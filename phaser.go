@@ -84,7 +84,7 @@ func phaser(v int) {
 
 	if !manual && damaged(COMPUTER) {
 		fmt.Printf("Computer damaged, manual selected\n")
-		skiptonl(0)
+		skiptonl()
 		manual = true
 	}
 
@@ -104,7 +104,7 @@ func phaser(v int) {
 				extra += hit
 				if extra > ship.energy {
 					fmt.Printf("available energy exceeded.  ")
-					skiptonl(0)
+					skiptonl()
 					flag++
 					break
 				}
@@ -137,7 +137,7 @@ func phaser(v int) {
 			}
 			if hit > ship.energy {
 				fmt.Printf("available energy exceeded.  ")
-				skiptonl(0)
+				skiptonl()
 				continue
 			}
 			flag = 0

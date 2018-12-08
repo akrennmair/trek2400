@@ -18,6 +18,8 @@ func domove(ramflag int, course int, p_time float64, speed float64) float64 {
 		evtime       float64
 	)
 
+	tracef("move: ramflag %d course %d time %.2f speed %.2f", ramflag, course, p_time, speed)
+
 	sectsize = NSECTS
 	/* initialize delta factors for move */
 	angle = float64(course) * 0.0174532925
@@ -56,15 +58,18 @@ func domove(ramflag int, course int, p_time float64, speed float64) float64 {
 	xn = NSECTS * dist * bigger
 	n = int(xn + 0.5)
 
+	tracef("move: dx = %.2f, dy = %.2f, xn = %.2f, n = %d", dx, dy, xn, n)
+
 	move.free = false
 
 	for i := 0; i < n; i++ {
 		x += dx
 		y += dy
-		ix := int(x)
-		iy := int(y)
+		ix = int(x)
+		iy = int(y)
 
 		if x < 0.0 || y < 0.0 || x >= sectsize || y >= sectsize {
+			/* enter new quadrant */
 			dx = float64(ship.quadx)*NSECTS + float64(ship.sectx) + dx*xn
 			dy = float64(ship.quady)*NSECTS + float64(ship.secty) + dy*xn
 			if dx < 0.0 {
@@ -79,13 +84,13 @@ func domove(ramflag int, course int, p_time float64, speed float64) float64 {
 				iy = int(dy + 0.5)
 			}
 
-			ship.secty = int(x)
+			ship.sectx = int(x)
 			ship.secty = int(y)
 			compkldist(false)
 			move.newquad = 2
 			attack(false)
 			checkcond()
-			ship.quady = ix / NSECTS
+			ship.quadx = ix / NSECTS
 			ship.quady = iy / NSECTS
 			ship.sectx = ix % NSECTS
 			ship.secty = iy % NSECTS

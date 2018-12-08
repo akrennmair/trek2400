@@ -2,15 +2,20 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 )
 
 var (
 	stdin = bufio.NewReader(os.Stdin)
+	trace *bool
 )
 
 func main() {
+	trace = flag.Bool("t", false, "enable tracing output")
+	flag.Parse()
+
 	fmt.Printf("\n   * * *   S T A R   T R E K   * * *\n\nPress return to continue.\n")
 
 	for {

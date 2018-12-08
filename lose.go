@@ -31,7 +31,7 @@ func lose(why int) {
 
 	move.endgame = -1
 	score()
-	skiptonl(0)
+	skiptonl()
 	panic(endofgame{})
 }
 

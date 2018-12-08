@@ -30,7 +30,7 @@ func compkldist(f bool) {
 }
 
 func sortkl() {
-	sort.Slice(etc.klingon, func(i, j int) bool {
+	sort.Slice(etc.klingon[:], func(i, j int) bool {
 		return etc.klingon[i].dist < etc.klingon[j].dist
 	})
 }

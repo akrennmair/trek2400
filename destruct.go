@@ -21,7 +21,7 @@ func destruct(v int) {
 		time.Sleep(1 * time.Second)
 	}
 
-	skiptonl(0)
+	skiptonl()
 	checkpass := getstrpar("Enter password verification")
 	time.Sleep(2)
 	if checkpass != game.passwd {
