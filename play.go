@@ -43,5 +43,5 @@ func play() {
 }
 
 func myreset(v int) {
-	// TODO: implement - how to implement longjmp?
+	panic(endofgame{})
 }

@@ -14,8 +14,18 @@ func main() {
 	fmt.Printf("\n   * * *   S T A R   T R E K   * * *\n\nPress return to continue.\n")
 
 	for {
-		setup()
-		play()
+		func() {
+			defer func() {
+				// panic/recover is used as a replacement for setjmp/longjmp.
+				if e := recover(); e != nil {
+					if _, ok := e.(endofgame); !ok {
+						panic(e)
+					}
+				}
+			}()
+			setup()
+			play()
+		}()
 
 		if !getynpar("Another game") {
 			return

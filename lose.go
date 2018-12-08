@@ -32,5 +32,7 @@ func lose(why int) {
 	move.endgame = -1
 	score()
 	skiptonl(0)
-	// TODO: how to implement longjmp?
+	panic(endofgame{})
 }
+
+type endofgame struct{}

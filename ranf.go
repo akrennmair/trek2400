@@ -14,9 +14,5 @@ func ranf(max int) int {
 }
 
 func franf() float64 {
-	// TODO: find out what the original function does.
-	//double          t;
-	//t = random() & 077777;
-	//return (t / 32767.0);
 	return math.Abs(rand.NormFloat64())
 }

@@ -29,6 +29,9 @@ func setup() {
 		r := getcodpar("What length game", lentab)
 		game.length = r.intValue
 		if game.length == 0 {
+			if !restartgame() {
+				continue
+			}
 			return
 		}
 		break
@@ -51,7 +54,7 @@ func setup() {
 	param.bases = ranf(6-game.skill) + 2
 	now.bases = param.bases
 
-	if game.skill == 6 { // TODO: what's 6?
+	if game.skill == 6 {
 		param.bases, now.bases = 1, 1
 	}
 

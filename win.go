@@ -24,5 +24,5 @@ func win() {
 	}
 
 	skiptonl(0)
-	// longjmp(env, 1) -- how to do longjmp?
+	panic(endofgame{})
 }

@@ -24,7 +24,7 @@ func getynpar(s string) bool {
 	return r.boolValue
 }
 
-func getcodpar(s string, tab []cvntab) cvntab {
+func getcodpar(s string, tab []cvntab) *cvntab {
 	flag := false
 	for {
 		f := testnl()
@@ -60,7 +60,7 @@ func getcodpar(s string, tab []cvntab) cvntab {
 
 		for _, t := range tab {
 			if t.abrev == input || t.full == input {
-				return t
+				return &t
 			}
 		}
 

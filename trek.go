@@ -9,6 +9,8 @@ const (
 	NEVENTS  = 12
 	MAXBASES = 9
 
+	NBANKS = 6 /* number of phaser banks */
+
 	MAXEVENTS = 25
 	MAXDISTR  = 5 /* maximum concurrent distress calls */
 
@@ -244,9 +246,15 @@ type Etc struct {
 	klingon [MAXKLQUAD]kling /* sorted Klingon list */
 	nkling  int              /* number of Klingons in this sector */
 	/* < 0 means automatic override mode */
-	starbase   xy     /* starbase in current quadrant */
-	snapshot   []byte /* TODO; snapshot for time warp */
-	statreport bool   /* set to get a status report on a srscan */
+	starbase   xy       /* starbase in current quadrant */
+	snapshot   snapshot /*snapshot for time warp */
+	statreport bool     /* set to get a status report on a srscan */
+}
+
+type snapshot struct {
+	quad  [NQUADS][NQUADS]quadrant
+	event [MAXEVENTS]event
+	now   Now
 }
 
 var etc Etc

@@ -319,7 +319,11 @@ func events(timeWarp bool) {
 			now.time = now.resource / float64(now.klings)
 
 		case E_SNAP: /* take a snapshot of the galaxy */
-			// TODO: not implemented yet.
+			xresched(e, E_SNAP, 1)
+			etc.snapshot.quad = quad
+			etc.snapshot.event = eventList
+			etc.snapshot.now = now
+			game.snap = true
 
 		case E_ATTACK: /* Klingons attack during rest period */
 			if !move.resting {
