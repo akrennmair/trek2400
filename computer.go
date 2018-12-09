@@ -108,7 +108,7 @@ func computer(v int) {
 					break
 				}
 				tqx = ix
-				tqx = iy
+				tqy = iy
 			}
 			ix = getintpar("Sector")
 			if ix < 0 || ix >= NSECTS {

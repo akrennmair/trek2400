@@ -68,8 +68,8 @@ func snova(x, y int) {
 		}
 	}
 
-	qx = q.klings
-	qy = q.stars
+	dx = q.klings
+	dy = q.stars
 	now.klings -= dx
 	if x >= 0 {
 		game.kills += dy
