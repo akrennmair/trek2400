@@ -60,8 +60,9 @@ func getcodpar(s string, tab []cvntab) *cvntab {
 			continue
 		}
 
+		// TODO: implement same logic as in original.
 		for _, t := range tab {
-			if (t.abrev != "" && t.abrev == input) || (t.full != "" && t.full == input) {
+			if (t.abrev != "" && t.abrev == input) || (t.full != "" && strings.HasPrefix(input, t.full)) {
 				return &t
 			}
 		}

@@ -3,20 +3,20 @@ package main
 import "fmt"
 
 var udtab = []cvntab{
-	{abrev: "u", full: "up", intValue: 1},
-	{abrev: "d", full: "down", intValue: 0},
+	{abrev: "u", full: "up", boolValue: true},
+	{abrev: "d", full: "down", boolValue: false},
 }
 
 func shield(f int) {
-	if f > 0 && (ship.shldup || damaged(SRSCAN)) {
-		return
-	}
-
 	var (
 		dev, dev2, dev3 string
 		ind             int
 		stat            *bool
 	)
+
+	if f > 0 && (ship.shldup || damaged(SRSCAN)) {
+		return
+	}
 
 	if f < 0 {
 		/* cloaking device */

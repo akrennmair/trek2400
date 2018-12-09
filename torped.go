@@ -40,6 +40,7 @@ func torped(v int) {
 		fmt.Printf("No-burst mode selected\n")
 		burst = 0
 	} else if !testnl() {
+		/* see if the user wants one */
 		c, _ := stdin.ReadByte()
 		stdin.UnreadByte()
 		if c >= '0' && c <= '9' {
@@ -67,7 +68,6 @@ func torped(v int) {
 	}
 	sectsize = NSECTS
 	n = -1
-
 	if burst > 0 {
 		n = 1
 		course -= float64(burst)
@@ -78,7 +78,7 @@ func torped(v int) {
 		course2 = course + float64(randcourse(n))
 		angle = course2 * 0.0174532925 /* convert to radians */
 		dx = -math.Cos(angle)
-		dy = -math.Sin(angle)
+		dy = math.Sin(angle)
 		bigger = math.Abs(dx)
 		x = math.Abs(dy)
 		if x > bigger {
