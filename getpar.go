@@ -134,10 +134,7 @@ func getintpar(s string) int {
 			stdin.ReadByte()
 		}
 		var n int
-		i, err := fmt.Fscanf(stdin, "%d", &n)
-		if i < 0 || err != nil {
-			os.Exit(1)
-		}
+		i, _ := fmt.Fscanf(stdin, "%d", &n)
 		if i > 0 && testterm() {
 			return n
 		}
@@ -157,8 +154,10 @@ func getfltpar(s string) float64 {
 		var d float64
 		i, err := fmt.Fscanf(stdin, "%f", &d)
 		if i < 0 || err != nil {
+			tracef("getfltpar: i = %d err = %v", i, err)
 			os.Exit(1)
 		}
+		stdin.UnreadByte()
 		if i > 0 && testterm() {
 			return d
 		}
@@ -169,7 +168,7 @@ func getfltpar(s string) float64 {
 
 func testterm() bool {
 	c, _ := stdin.ReadByte()
-	if c != 0 {
+	if c == 0 {
 		return true
 	}
 	if c == '.' {
@@ -200,36 +199,22 @@ func readdelim(d byte) bool {
 }
 
 func getstrpar(s string) string {
-	if s != "" {
-		fmt.Printf("%s: ", s)
-	}
-	skiptonl()
-	stdin.ReadByte()
-
-	var answer string
-	if _, err := fmt.Scanf("%s", &answer); err != nil {
-		panic(err)
-	}
-	return answer
-
-	/*
-		for {
-			if testnl() {
-				if s != "" {
-					fmt.Printf("%s: ", s)
-				}
-				stdin.ReadByte()
+	for {
+		if testnl() {
+			if s != "" {
+				fmt.Printf("%s: ", s)
 			}
-
-			answer, err := readToken("\t ;")
-			if err != nil {
-				panic(err)
-			}
-			if answer != "" {
-				return answer
-			}
+			stdin.ReadByte()
 		}
-	*/
+
+		answer, err := readToken("\t\n;")
+		if err != nil {
+			panic(err)
+		}
+		if answer != "" {
+			return answer
+		}
+	}
 }
 
 func skipchars(charset string) {

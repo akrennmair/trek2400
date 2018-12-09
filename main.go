@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"math/rand"
 	"os"
+	"time"
 )
 
 var (
@@ -15,6 +17,11 @@ var (
 func main() {
 	trace = flag.Bool("t", false, "enable tracing output")
 	flag.Parse()
+
+	// don't seed randomizer when tracing to ensure the same reproducable steps every time.
+	if !*trace {
+		rand.Seed(time.Now().UnixNano() ^ int64(os.Getpid()))
+	}
 
 	fmt.Printf("\n   * * *   S T A R   T R E K   * * *\n\nPress return to continue.\n")
 

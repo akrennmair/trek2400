@@ -14,7 +14,7 @@ func damage(dev int, dam float64) {
 		dam *= param.dockfac
 	}
 	f := damaged(dev)
-	if f {
+	if !f {
 		/* new damages -- schedule a fix */
 		schedule(E_FIXDV, dam, 0, 0, dev)
 		return

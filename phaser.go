@@ -78,7 +78,7 @@ func phaser(v int) {
 	}
 
 	if !manual {
-		ptr = getcodpar("Manual of automatic", matab)
+		ptr = getcodpar("Manual or automatic", matab)
 		manual = ptr.boolValue
 	}
 
