@@ -139,6 +139,7 @@ func torped(v int) {
 		if damaged(TORPED) || quad[ship.quadx][ship.quady].stars < 0 {
 			break
 		}
+		course += float64(burst)
 	}
 	move.free = false
 }

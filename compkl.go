@@ -2,7 +2,6 @@ package main
 
 import (
 	"math"
-	"sort"
 )
 
 func compkldist(f bool) {
@@ -30,7 +29,23 @@ func compkldist(f bool) {
 }
 
 func sortkl() {
-	sort.Slice(etc.klingon[:], func(i, j int) bool {
-		return etc.klingon[i].dist < etc.klingon[j].dist
-	})
+	var (
+		t    kling
+		i, m int
+		f    bool
+	)
+
+	m = etc.nkling - 1
+	f = true
+	for f {
+		f = false
+		for i = 0; i < m; i++ {
+			if etc.klingon[i].dist > etc.klingon[i+1].dist {
+				t = etc.klingon[i]
+				etc.klingon[i] = etc.klingon[i+1]
+				etc.klingon[i+1] = t
+				f = true
+			}
+		}
+	}
 }

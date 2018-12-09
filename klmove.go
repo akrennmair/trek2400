@@ -3,9 +3,22 @@ package main
 import "fmt"
 
 func klmove(fl bool) {
-	for n := 0; n < etc.nkling; n++ {
-		k := &etc.klingon[n]
-		i := 100
+	var (
+		n              int
+		k              *kling
+		dx, dy         float64
+		nextx, nexty   int
+		lookx, looky   int
+		motion         int
+		fudgex, fudgey int
+		qx, qy         int
+		bigger         float64
+		i              int
+	)
+
+	for n = 0; n < etc.nkling; n++ {
+		k = &etc.klingon[n]
+		i = 100
 		if fl {
 			i = 100 * (k.power / param.klingpwr)
 		}
@@ -19,36 +32,36 @@ func klmove(fl bool) {
 		}
 
 		/* compute distance to move */
-		motion := ranf(75) - 25
+		motion = ranf(75) - 25
 		motion = int(float64(motion) * (k.avgdist * param.movefac[2*move.newquad+flint]))
 		/* compute direction */
-		dx := ship.sectx - k.x + ranf(3) - 1
-		dy := ship.secty - k.y + ranf(3) - 1
-		bigger := dx
+		dx = float64(ship.sectx - k.x + ranf(3) - 1)
+		dy = float64(ship.secty - k.y + ranf(3) - 1)
+		bigger = dx
 		if dy > bigger {
 			bigger = dy
 		}
 		if bigger == 0.0 {
 			bigger = 1.0
 		}
-		dx = int(float64(dx)/float64(bigger) + 0.5)
-		dy = int(float64(dy)/float64(bigger) + 0.5)
+		dx = float64(dx)/float64(bigger) + 0.5
+		dy = float64(dy)/float64(bigger) + 0.5
 		if motion < 0 {
 			motion = -motion
 			dx = -dx
 			dy = -dy
 		}
-		fudgex, fudgey := 1, 1
+		fudgex, fudgey = 1, 1
 		/* try to move the klingon */
-		nextx := k.x
-		nexty := k.y
+		nextx = k.x
+		nexty = k.y
 		for ; motion > 0; motion-- {
-			lookx := nextx + dx
-			looky := nexty + dy
+			lookx = int(float64(nextx) + dx)
+			looky = int(float64(nexty) + dy)
 			if lookx < 0 || lookx >= NSECTS || looky < 0 || looky >= NSECTS {
 				/* new quadrant */
-				qx := ship.quadx
-				qy := ship.quady
+				qx = ship.quadx
+				qy = ship.quady
 				if lookx < 0 {
 					qx -= 1
 				} else if lookx >= NSECTS {
@@ -88,7 +101,7 @@ func klmove(fl bool) {
 			if sect[lookx][looky] != EMPTY {
 				lookx = nextx + fudgex
 				if lookx < 0 || lookx >= NSECTS {
-					lookx = nextx + dx
+					lookx = int(float64(nextx) + dx)
 				}
 				if sect[lookx][looky] != EMPTY {
 					fudgex = -fudgex
@@ -107,8 +120,8 @@ func klmove(fl bool) {
 				fmt.Printf("Klingon at %d,%d moves to %d,%d\n", k.x, k.y, nextx, nexty)
 			}
 			sect[k.x][k.y] = EMPTY
-			sect[nextx][nexty] = KLINGON
 			k.x, k.y = nextx, nexty
+			sect[nextx][nexty] = KLINGON
 		}
 	}
 	compkldist(false)

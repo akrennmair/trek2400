@@ -25,8 +25,19 @@ var (
 )
 
 func setup() {
+	var (
+		r      *cvntab
+		f      float64
+		d      int
+		klump  int
+		ix, iy int
+		q      *quadrant
+		e      *event
+		sum    float64
+	)
+
 	for {
-		r := getcodpar("What length game", lentab)
+		r = getcodpar("What length game", lentab)
 		game.length = r.intValue
 		if game.length == 0 {
 			if !restartgame() {
@@ -37,18 +48,18 @@ func setup() {
 		break
 	}
 
-	r := getcodpar("What skill game", skilltab)
+	r = getcodpar("What skill game", skilltab)
 	game.skill = r.intValue
 	game.tourn = false
 	game.passwd = getstrpar("Enter a password")
 	if game.passwd == "tournament" {
 		game.passwd = getstrpar("Enter tournament code")
 		game.tourn = true
-		d := int64(0)
+		d = 0
 		for i := 0; i < len(game.passwd); i++ {
-			d += int64(game.passwd[i]) << uint(i)
+			d += int(game.passwd[i]) << uint(i)
 		}
-		rand.Seed(d)
+		rand.Seed(int64(d))
 	}
 
 	param.bases = ranf(6-game.skill) + 2
@@ -58,20 +69,22 @@ func setup() {
 		param.bases, now.bases = 1, 1
 	}
 
-	t := 6.0*float64(game.length) + 2.0
-	param.time, now.time = t, t
+	now.time = 6.0*float64(game.length) + 2.0
+	param.time = now.time
 
 	i := game.skill
 	j := game.length
 
-	klings := int(float64(i) * float64(j) * 3.5 * (franf() + 0.75))
-	param.klings, now.klings = klings, klings
+	now.klings = int(float64(i*j) * 3.5 * (franf() + 0.75))
+	param.klings = now.klings
 
-	if minKlings := i * j * 5; param.klings < minKlings {
-		param.klings, now.klings = minKlings, minKlings
+	if param.klings < i*j*5 {
+		now.klings = i * j * 5
+		param.klings = now.klings
 	}
 	if param.klings <= i { // numerical overflow problem?! research
-		param.klings, now.klings = 127, 127
+		now.klings = 127
+		param.klings = now.klings
 	}
 
 	param.energy, ship.energy = 5000, 5000
@@ -96,7 +109,7 @@ func setup() {
 	param.date = float64(ranf(20)+20) * 100
 	now.date = param.date
 
-	f := float64(game.skill)
+	f = float64(game.skill)
 	f = math.Log(f + 0.5)
 	param.damfac = map[int]float64{}
 	for i := range devices {
@@ -119,7 +132,7 @@ func setup() {
 		XPORTER:  80,
 	}
 
-	sum := 0.0
+	sum = 0.0
 	for _, v := range param.damprob {
 		sum += v
 	}
@@ -174,7 +187,7 @@ func setup() {
 	param.energylow = 1000
 
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		e.date = TOOLARGE
 	}
 
@@ -189,9 +202,12 @@ func setup() {
 	/* setup stars */
 	for i := 0; i < NQUADS; i++ {
 		for j := 0; j < NQUADS; j++ {
-			quad[i][j].scanned = -1
-			quad[i][j].stars = ranf(9) + 1
-			quad[i][j].holes = ranf(3) - quad[i][j].stars/5
+			q = &quad[i][j]
+			q.klings = 0
+			q.bases = 0
+			q.scanned = -1
+			q.stars = ranf(9) + 1
+			q.holes = ranf(3) - q.stars/5
 		}
 	}
 
@@ -200,11 +216,12 @@ func setup() {
 		for {
 			i := ranf(NQUADS)
 			j := ranf(NQUADS)
-			if quad[i][j].qsystemname == 0 {
-				quad[i][j].qsystemname = d
+			q = &quad[i][j]
+			if q.qsystemname == 0 {
 				break
 			}
 		}
+		q.qsystemname = d
 	}
 
 	/* position starbases */
@@ -214,16 +231,17 @@ func setup() {
 		for {
 			ix = ranf(NQUADS)
 			iy = ranf(NQUADS)
-			if quad[ix][iy].bases > 0 {
+			q := &quad[ix][iy]
+			if q.bases > 0 {
 				continue
 			}
 			break
 		}
 
-		quad[ix][iy].bases = 1
+		q.bases = 1
 		now.base[i].x = ix
 		now.base[i].y = iy
-		quad[ix][iy].scanned = 1001
+		q.scanned = 1001
 		if i == 0 {
 			ship.quadx = ix
 			ship.quady = iy
@@ -232,17 +250,18 @@ func setup() {
 
 	/* position klingons */
 	for i := param.klings; i > 0; {
-		klump := ranf(4) + 1
+		klump = ranf(4) + 1
 		if klump > i {
 			klump = i
 		}
 		for {
-			ix := ranf(NQUADS)
-			iy := ranf(NQUADS)
-			if quad[ix][iy].klings+klump > MAXKLQUAD {
+			ix = ranf(NQUADS)
+			iy = ranf(NQUADS)
+			q = &quad[ix][iy]
+			if q.klings+klump > MAXKLQUAD {
 				continue
 			}
-			quad[ix][iy].klings += klump
+			q.klings += klump
 			i -= klump
 			break
 		}

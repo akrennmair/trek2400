@@ -3,7 +3,14 @@ package main
 import "fmt"
 
 func initquad(f int) {
-	q := &quad[ship.quadx][ship.quady]
+	var (
+		rx, ry         int
+		nbases, nstars int
+		q              *quadrant
+		nholes         int
+	)
+
+	q = &quad[ship.quadx][ship.quady]
 
 	/* ignored supernova'ed quadrants (this is checked again later anyway */
 	if q.stars < 0 {
@@ -11,9 +18,9 @@ func initquad(f int) {
 	}
 
 	etc.nkling = q.klings
-	nbases := q.bases
-	nstars := q.stars
-	nholes := q.holes
+	nbases = q.bases
+	nstars = q.stars
+	nholes = q.holes
 
 	/* have we blundered into a battle zone w/ shields down? */
 	if etc.nkling > 0 && f == 0 {
@@ -36,7 +43,7 @@ func initquad(f int) {
 
 	/* initialize Klingons */
 	for i := 0; i < etc.nkling; i++ {
-		rx, ry := sector()
+		rx, ry = sector()
 		sect[rx][ry] = KLINGON
 		etc.klingon[i].x = rx
 		etc.klingon[i].y = ry
@@ -48,7 +55,7 @@ func initquad(f int) {
 
 	/* initialize star base */
 	if nbases > 0 {
-		rx, ry := sector()
+		rx, ry = sector()
 		sect[rx][ry] = BASE
 		etc.starbase.x = rx
 		etc.starbase.y = ry
@@ -56,20 +63,20 @@ func initquad(f int) {
 
 	/* initialize inhabited starsystem */
 	if q.qsystemname != 0 {
-		rx, ry := sector()
+		rx, ry = sector()
 		sect[rx][ry] = INHABIT
 		nstars -= 1
 	}
 
 	/* initialize black holes */
 	for i := 0; i < nholes; i++ {
-		rx, ry := sector()
+		rx, ry = sector()
 		sect[rx][ry] = HOLE
 	}
 
 	/* initialize stars */
 	for i := 0; i < nstars; i++ {
-		rx, ry := sector()
+		rx, ry = sector()
 		sect[rx][ry] = STAR
 	}
 
