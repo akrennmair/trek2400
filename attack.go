@@ -6,6 +6,15 @@ import (
 )
 
 func attack(resting bool) {
+	var (
+		hit, i, l                int
+		maxhit, tothit, shldabsb int
+		chgfac, propor, extradm  float64
+		dustfac, tothe           float64
+		cas                      int
+		hitflag                  int
+	)
+
 	if move.free {
 		return
 	}
@@ -26,15 +35,15 @@ func attack(resting bool) {
 		return
 	}
 
-	chgfac := 1.0
+	chgfac = 1.0
 	if move.shldchg {
 		chgfac = 0.25 + 0.50*franf()
 	}
-	maxhit := 0.0
-	tothit := 0.0
-	hitflag := 0
+	maxhit = 0.0
+	tothit = 0.0
+	hitflag = 0
 
-	for i := 0; i < etc.nkling; i++ {
+	for i = 0; i < etc.nkling; i++ {
 		if etc.klingon[i].power < 20 {
 			continue
 		}
@@ -44,27 +53,28 @@ func attack(resting bool) {
 		}
 
 		/* complete the hit */
-		dustfac := 0.90 + 0.01*franf()
-		tothe := etc.klingon[i].avgdist
-		hit := float64(etc.klingon[i].power) * math.Pow(dustfac, tothe) * param.hitfac
+		dustfac = 0.90 + 0.01*franf()
+		tothe = etc.klingon[i].avgdist
+		hit = int(float64(etc.klingon[i].power) * math.Pow(dustfac, tothe) * param.hitfac)
 		/* deplete his energy */
-		etc.klingon[i].power = etc.klingon[i].power * int(param.phasfac*(1.0+(franf()-0.5)*0.2))
+		dustfac = float64(etc.klingon[i].power)
+		etc.klingon[i].power = int(dustfac * param.phasfac * (1.0 + (franf()-0.5)*0.2))
 		/* see how much of hit shields will absorb */
-		shldabsb := 0.0
+		shldabsb = 0.0
 		if ship.shldup || move.shldchg {
-			propor := float64(ship.shield) / float64(param.shield)
-			shldabsb := propor * chgfac * hit
-			if int(shldabsb) > ship.shield {
-				shldabsb = float64(ship.shield)
+			propor = float64(ship.shield) / float64(param.shield)
+			shldabsb = int(propor * chgfac * float64(hit))
+			if shldabsb > ship.shield {
+				shldabsb = ship.shield
 			}
-			ship.shield -= int(shldabsb)
+			ship.shield -= shldabsb
 		}
 		/* actually do the hit */
 		fmt.Printf("\aHIT: %d units", int(hit))
 		if !damaged(SRSCAN) {
 			fmt.Printf(" from %d,%d", etc.klingon[i].x, etc.klingon[i].y)
 		}
-		cas := (shldabsb * 100) / hit
+		cas = (shldabsb * 100) / hit
 		hit -= shldabsb
 		if shldabsb > 0 {
 			fmt.Printf(", shields absorb %d%%, effective hit %d\n", int(cas), int(hit))
@@ -76,16 +86,16 @@ func attack(resting bool) {
 			maxhit = hit
 		}
 		ship.energy -= int(hit)
-		if hit >= float64((15-game.skill)*(25-ranf(12))) {
+		if hit >= (15-game.skill)*(25-ranf(12)) {
 			fmt.Printf("\aCRITICAL HIT!!!\a\n")
 			/* select a device from probability vector */
-			cas := ranf(1000)
-			l := 0
+			cas = ranf(1000)
+			l = 0
 			for ; cas >= 0; l++ {
 				cas -= int(param.damprob[l])
 			}
 			l -= 1
-			extradm := (hit*param.damfac[l])/float64(75+ranf(25)) + 0.5
+			extradm = (float64(hit)*param.damfac[l])/float64(75+ranf(25)) + 0.5
 			/* damage the device */
 			damage(l, extradm)
 			if damaged(SHIELD) {
@@ -102,7 +112,7 @@ func attack(resting bool) {
 	}
 
 	if maxhit >= 200 || tothit >= 500 {
-		cas := tothit * 0.015 * franf()
+		cas = int(float64(tothit) * 0.015 * franf())
 		if cas >= 2 {
 			fmt.Printf("McCoy: we suffered %d casualties in that attack.\n", int(cas))
 			game.deaths += int(cas)

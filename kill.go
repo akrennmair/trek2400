@@ -34,7 +34,12 @@ func killk(ix, iy int) {
 }
 
 func killb(qx, qy int) {
-	q := &quad[qx][qy]
+	var (
+		q *quadrant
+		b *xy
+	)
+
+	q = &quad[qx][qy]
 
 	if q.bases <= 0 {
 		return
@@ -51,7 +56,6 @@ func killb(qx, qy int) {
 
 	q.bases = 0
 	now.bases -= 1
-	var b *xy
 	for i := 0; i < MAXBASES; i++ {
 		b = &now.base[i]
 		if qx == b.x && qy == b.y {
@@ -76,10 +80,15 @@ func killb(qx, qy int) {
 }
 
 func killd(x, y, f int) {
-	q := &quad[x][y]
+	var (
+		e *event
+		q *quadrant
+	)
+
+	q = &quad[x][y]
 
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.x != x || e.y != y {
 			continue
 		}

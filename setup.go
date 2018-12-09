@@ -147,9 +147,10 @@ func setup() {
 	}
 	param.warptime = 10
 	param.stopengy = 50
-	param.shupengy = 50
-	param.klingpwr = 100 + 150*game.skill
-	if game.skill >= 6 {
+	param.shupengy = 40
+	i = game.skill
+	param.klingpwr = 100 + 150*i
+	if i >= 6 {
 		param.klingpwr += 150
 	}
 	param.phasfac = 0.8

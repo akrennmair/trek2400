@@ -19,12 +19,25 @@ var cputab = []cvntab{
 }
 
 func computer(v int) {
+	var (
+		ix, iy       int
+		j            int
+		tqx, tqy     int
+		r            *cvntab
+		cost         int
+		course       int
+		dist, p_time float64
+		warpfact     float64
+		q            *quadrant
+		e            *event
+	)
+
 	if check_out(COMPUTER) {
 		return
 	}
 
 	for {
-		r := getcodpar("\nRequest", cputab)
+		r = getcodpar("\nRequest", cputab)
 		switch r.intValue {
 
 		case 1: /* star chart */
@@ -37,12 +50,12 @@ func computer(v int) {
 			fmt.Printf("\n")
 			for i := 0; i < NQUADS; i++ {
 				fmt.Printf("%d ", i)
-				for j := 0; i < NQUADS; i++ {
+				for j := 0; j < NQUADS; j++ {
 					if i == ship.quadx && j == ship.quady {
 						fmt.Printf("$$$ ")
 						continue
 					}
-					q := &quad[i][j]
+					q = &quad[i][j]
 					/* 1000 or 1001 is special case */
 					if q.scanned >= 1000 {
 						if q.scanned > 1000 {
@@ -77,38 +90,35 @@ func computer(v int) {
 			/* for each Klingon, give the course & distance */
 			for i := 0; i < etc.nkling; i++ {
 				fmt.Printf("Klingon at %d,%d", etc.klingon[i].x, etc.klingon[i].y)
-				var dist float64
-				course := kalc(ship.quadx, ship.quady, etc.klingon[i].x, etc.klingon[i].y, &dist)
+				course, dist = kalc(ship.quadx, ship.quady, etc.klingon[i].x, etc.klingon[i].y)
 				prkalc(course, dist)
 			}
 
 		case 3: /* course calculation */
-			var tqx, tqy int
 			if readdelim('/') {
 				tqx = ship.quadx
 				tqy = ship.quady
 			} else {
-				ix := getintpar("Quadrant")
+				ix = getintpar("Quadrant")
 				if ix < 0 || ix >= NSECTS {
 					break
 				}
-				iy := getintpar("q-y")
+				iy = getintpar("q-y")
 				if iy < 0 || iy >= NSECTS {
 					break
 				}
 				tqx = ix
 				tqx = iy
 			}
-			ix := getintpar("Sector")
+			ix = getintpar("Sector")
 			if ix < 0 || ix >= NSECTS {
 				break
 			}
-			iy := getintpar("s-y")
+			iy = getintpar("s-y")
 			if iy < 0 || iy >= NSECTS {
 				break
 			}
-			var dist float64
-			course := kalc(tqx, tqy, ix, iy, &dist)
+			course, dist = kalc(tqx, tqy, ix, iy)
 			if r.boolValue {
 				warp(-1, course, dist)
 				break
@@ -120,43 +130,43 @@ func computer(v int) {
 			score()
 
 		case 5: /* phaser effectiveness */
-			dist := getfltpar("range")
+			dist = getfltpar("range")
 			if dist < 0.0 {
 				break
 			}
 			dist *= 10.0
-			cost := math.Pow(0.9, dist)*98.0 + 0.5
-			fmt.Printf("Phasers are %d%% effective at that range\n", int(cost))
+			cost = int(math.Pow(0.9, dist)*98.0 + 0.5)
+			fmt.Printf("Phasers are %d%% effective at that range\n", cost)
 
 		case 6: /* warp cost (time/energy) */
-			dist := getfltpar("distance")
+			dist = getfltpar("distance")
 			if dist < 0.0 {
 				break
 			}
-			warpfact := getfltpar("warp factor")
+			warpfact = getfltpar("warp factor")
 			if warpfact <= 0.0 {
 				warpfact = ship.warp
 			}
-			cost := (dist + 0.05) * warpfact * warpfact * warpfact
-			p_time := float64(param.warptime) * dist / (warpfact * warpfact)
+			cost = int((dist + 0.05) * warpfact * warpfact * warpfact)
+			p_time = float64(param.warptime) * dist / (warpfact * warpfact)
 			fmt.Printf("Warp %.2f distance %.2f cost %.2f stardates %d (%d w/ shlds up) units\n",
 				warpfact, dist, p_time, int(cost), int(cost+cost))
 
 		case 7: /* impulse cost */
-			dist := getfltpar("distance")
+			dist = getfltpar("distance")
 			if dist < 0.0 {
 				break
 			}
-			cost := 20 + 100*dist
-			p_time := dist / 0.095
+			cost = int(20 + 100*dist)
+			p_time = dist / 0.095
 			fmt.Printf("Distance %.2f cost %.2f stardates %d units\n", dist, p_time, int(cost))
 
 		case 8: /* distresslist */
-			j := true
+			j = 1
 			fmt.Printf("\n")
 			/* scan the event list */
 			for i := 0; i < MAXEVENTS; i++ {
-				e := &eventList[i]
+				e = &eventList[i]
 				/* ignore hidden entries */
 				if e.evcode&E_HIDDEN != 0 {
 					continue
@@ -164,13 +174,13 @@ func computer(v int) {
 				switch e.evcode & E_EVENT {
 				case E_KDESB:
 					fmt.Printf("Klingon is attacking starbase in quadrant %d,%d\n", e.x, e.y)
-					j = false
+					j = 0
 				case E_ENSLV, E_REPRO:
 					fmt.Printf("Starsystem %s in quadrant %d,%d is distressed\n", systemnameList[e.systemname], e.x, e.y)
-					j = false
+					j = 0
 				}
 			}
-			if j {
+			if j != 0 {
 				fmt.Printf("No known distress calls are active\n")
 			}
 		}
@@ -191,23 +201,29 @@ func computer(v int) {
 	}
 }
 
-func kalc(tqx, tqy, tsx, tsy int, dist *float64) int {
+func kalc(tqx, tqy, tsx, tsy int) (int, float64) {
+	var (
+		dx, dy   float64
+		quadsize float64
+		angle    float64
+		course   int
+	)
+
 	/* normalize to quadrant distances */
-	quadsize := float64(NSECTS)
-	dx := (float64(ship.quadx) + float64(ship.sectx)/quadsize) - (float64(tqx) + float64(tsx)/quadsize)
-	dy := (float64(tqy) + float64(tsy)/quadsize) - (float64(ship.quady) + float64(ship.secty)/quadsize)
+	quadsize = float64(NSECTS)
+	dx = (float64(ship.quadx) + float64(ship.sectx)/quadsize) - (float64(tqx) + float64(tsx)/quadsize)
+	dy = (float64(tqy) + float64(tsy)/quadsize) - (float64(ship.quady) + float64(ship.secty)/quadsize)
 
 	/* get the angle */
-	angle := math.Atan2(dy, dx)
+	angle = math.Atan2(dy, dx)
 	/* make it 0 -> 2 pi */
 	if angle < 0.0 {
 		angle += 6.283185307
 	}
 	/* convert from radians to degrees */
-	course := angle*57.29577951 + 0.5
+	course = int(angle*57.29577951 + 0.5)
 	dx = dx*dx + dy*dy
-	*dist = math.Sqrt(dx)
-	return int(course)
+	return int(course), math.Sqrt(dx)
 }
 
 func prkalc(course int, dist float64) {

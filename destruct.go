@@ -6,6 +6,11 @@ import (
 )
 
 func destruct(v int) {
+	var (
+		checkpass string
+		zap       float64
+	)
+
 	if damaged(COMPUTER) {
 		out(COMPUTER)
 		return
@@ -22,7 +27,7 @@ func destruct(v int) {
 	}
 
 	skiptonl()
-	checkpass := getstrpar("Enter password verification")
+	checkpass = getstrpar("Enter password verification")
 	time.Sleep(2)
 	if checkpass != game.passwd {
 		fmt.Printf("Self destruct sequence aborted\n")
@@ -42,7 +47,7 @@ func destruct(v int) {
 	fmt.Printf("\032\014***** %s destroyed *****\n", ship.shipname)
 	game.killed = true
 	/* let's see what we can blow up!!!! */
-	zap := 20.0 * float64(ship.energy)
+	zap = 20.0 * float64(ship.energy)
 	game.deaths += ship.crew
 	for i := 0; i < etc.nkling; {
 		if float64(etc.klingon[i].power)*etc.klingon[i].dist <= zap {

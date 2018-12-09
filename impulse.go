@@ -3,6 +3,13 @@ package main
 import "fmt"
 
 func impulse(v int) {
+	var (
+		course       int
+		power        int
+		dist, p_time float64
+		percent      int
+	)
+
 	if ship.cond == DOCKED {
 		fmt.Printf("Scotty: Sorry captain, but we are still docked.\n")
 		return
@@ -13,17 +20,12 @@ func impulse(v int) {
 		return
 	}
 
-	var (
-		course int
-		dist   float64
-	)
-
 	if getcodi(&course, &dist) {
 		return
 	}
 
-	power := 20 + 100*dist
-	percent := int(100*power/float64(ship.energy) + 0.5)
+	power = int(20 + 100*dist)
+	percent = int(float64(100*power/ship.energy) + 0.5)
 	if percent >= 85 {
 		fmt.Printf("Scotty: That would consume %d%% of our remaining energy.\n", percent)
 		if !getynpar("Are you sure that is wise") {
@@ -31,8 +33,8 @@ func impulse(v int) {
 		}
 		fmt.Printf("Aye aye, sir\n")
 	}
-	pTime := dist / 0.095
-	percent = int(100*pTime/now.time + 0.5)
+	p_time = dist / 0.095
+	percent = int(100*p_time/now.time + 0.5)
 	if percent >= 85 {
 		fmt.Printf("Spock: That would take %d%% of our remaining time.\n", percent)
 		if !getynpar("Are you sure that is wise") {
@@ -40,6 +42,6 @@ func impulse(v int) {
 		}
 		fmt.Printf("(He's finally gone mad)\n")
 	}
-	move.time = domove(0, course, pTime, 0.095)
+	move.time = domove(0, course, p_time, 0.095)
 	ship.energy -= int(20 + 100*move.time*0.095)
 }

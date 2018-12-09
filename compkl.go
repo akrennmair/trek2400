@@ -5,16 +5,21 @@ import (
 )
 
 func compkldist(f bool) {
+	var (
+		dx, dy int
+		d      float64
+		temp   float64
+	)
+
 	if etc.nkling == 0 {
 		return
 	}
 
-	var temp float64
-
 	for i := 0; i < etc.nkling; i++ {
-		dx := ship.sectx - etc.klingon[i].x
-		dy := ship.secty - etc.klingon[i].y
-		d := math.Sqrt(float64(dx*dx + dy*dy))
+		/* compute distance to the Klingon */
+		dx = ship.sectx - etc.klingon[i].x
+		dy = ship.secty - etc.klingon[i].y
+		d = math.Sqrt(float64(dx*dx + dy*dy))
 
 		if !f {
 			temp = etc.klingon[i].dist

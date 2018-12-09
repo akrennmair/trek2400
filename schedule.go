@@ -16,9 +16,14 @@ import (
  */
 
 func schedule(typ int, offset float64, x, y, z int) *event {
-	date := now.date + offset
+	var (
+		e    *event
+		date float64
+	)
+
+	date = now.date + offset
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != 0 {
 			continue
 		}

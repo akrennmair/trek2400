@@ -3,6 +3,12 @@ package main
 import "fmt"
 
 func damage(dev int, dam float64) {
+	var (
+		e *event
+		f bool
+	)
+
+	/* ignore zero damages */
 	if dam <= 0.0 {
 		return
 	}
@@ -13,7 +19,7 @@ func damage(dev int, dam float64) {
 	if ship.cond == DOCKED {
 		dam *= param.dockfac
 	}
-	f := damaged(dev)
+	f = damaged(dev)
 	if !f {
 		/* new damages -- schedule a fix */
 		schedule(E_FIXDV, dam, 0, 0, dev)
@@ -22,10 +28,11 @@ func damage(dev int, dam float64) {
 	/* device already damaged -- add to existing damages */
 	/* scan for old damages */
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV || e.systemname != dev {
 			continue
 		}
+		/* got the right one; add on the new damages */
 		reschedule(e, e.date-now.date+dam)
 		return
 	}

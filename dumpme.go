@@ -3,12 +3,17 @@ package main
 import "fmt"
 
 func dumpme(flag bool) {
+	var (
+		x float64
+		e *event
+	)
+
 	ship.quadx = ranf(NQUADS)
 	ship.quady = ranf(NQUADS)
 	ship.sectx = ranf(NSECTS)
 	ship.secty = ranf(NSECTS)
 
-	x := 1.5 * franf()
+	x = 1.5 * franf()
 	if flag {
 		fmt.Printf("%s falls into a black hole.\n", ship.shipname)
 	} else {
@@ -17,7 +22,7 @@ func dumpme(flag bool) {
 	}
 	/* bump repair dates forward */
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}

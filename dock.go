@@ -3,13 +3,18 @@ package main
 import "fmt"
 
 func dock(v int) {
+	var (
+		ok bool
+		e  *event
+	)
+
 	if ship.cond == DOCKED {
 		fmt.Printf("Chekov: But captain, we are already docked\n")
 		return
 	}
 
 	/* check for ok to dock, i.e., adjacent to a starbase */
-	ok := false
+	ok = false
 	for i := ship.sectx - 1; i <= ship.sectx+1 && !ok; i++ {
 		if i < 0 || i >= NSECTS {
 			continue
@@ -51,7 +56,7 @@ func dock(v int) {
 
 	/* reschedule any device repairs */
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}
@@ -60,6 +65,8 @@ func dock(v int) {
 }
 
 func undock(_ int) {
+	var e *event
+
 	if ship.cond != DOCKED {
 		fmt.Printf("Sulu: Pardon me captain, but we are not docked.\n")
 		return
@@ -70,7 +77,7 @@ func undock(_ int) {
 
 	/* reschedule device repair times (again) */
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}

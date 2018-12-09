@@ -3,7 +3,12 @@ package main
 import "fmt"
 
 func dcrept(v int) {
-	var m1, m2 float64
+	var (
+		f      bool
+		x      float64
+		m1, m2 float64
+		e      *event
+	)
 
 	/* set up the magic factors to output the time till fixed */
 	if ship.cond == DOCKED {
@@ -14,10 +19,10 @@ func dcrept(v int) {
 		m2 = param.dockfac
 	}
 	fmt.Printf("Damage control report:\n")
-	f := true
+	f = true
 
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}
@@ -30,7 +35,7 @@ func dcrept(v int) {
 		}
 
 		/* compute time till fixed, then adjust by the magic factors */
-		x := e.date - now.date
+		x = e.date - now.date
 		fmt.Printf("%-24s%7.2f  %7.2f\n", devices[e.systemname].name, x*m1+0.005, x*m2+0.005)
 
 		/* do a little consistancy checking */

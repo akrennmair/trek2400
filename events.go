@@ -6,6 +6,20 @@ import (
 )
 
 func events(timeWarp bool) {
+	var (
+		i          int
+		j          int
+		k          *kling
+		rtime      float64
+		xdate      float64
+		idate      float64
+		ev         *event
+		ix, iy     int
+		q          *quadrant
+		e          *event
+		evnum      int
+		restcancel int
+	)
 
 	/* if nothing happened, just allow for any Klingons killed */
 	if move.time <= 0.0 {
@@ -17,7 +31,7 @@ func events(timeWarp bool) {
 	ship.cloakgood = true
 
 	/* idate is the initial date */
-	idate := now.date
+	idate = now.date
 
 	/* schedule attacks if resting too long */
 	if move.time > 0.5 && move.resting {
@@ -26,12 +40,10 @@ func events(timeWarp bool) {
 
 	/* scan the event list */
 	for {
-		restcancel := 0
-		evnum := -1
+		restcancel = 0
+		evnum = -1
 		/* xdate is the date of the current event */
-		xdate := idate + move.time
-
-		var e, ev *event
+		xdate = idate + move.time
 
 		/* find the first event that has happened */
 		for i := 0; i < MAXEVENTS; i++ {
@@ -48,7 +60,7 @@ func events(timeWarp bool) {
 		e = ev
 
 		/* find the time between events */
-		rtime := xdate - now.date
+		rtime = xdate - now.date
 
 		/* decrement the magic "Federation Resources" pseudo-variable */
 		now.resource -= float64(now.klings) * rtime
@@ -82,11 +94,11 @@ func events(timeWarp bool) {
 			/* LRTB cannot occur if we are docked */
 			if ship.cond != DOCKED {
 				/* pick a new quadrant */
-				i := ranf(now.klings) + 1
+				i = ranf(now.klings) + 1
 				var ix, iy int
 				for ix = 0; i < NQUADS; ix++ {
 					for iy = 0; iy < NQUADS; iy++ {
-						q := &quad[ix][iy]
+						q = &quad[ix][iy]
 						if q.stars >= 0 {
 							i -= q.klings
 							if i <= 0 {
@@ -123,20 +135,19 @@ func events(timeWarp bool) {
 				break
 			}
 
-			var i, ix, iy int
 			for ; i < now.bases; i++ {
-				ix := now.base[i].x
-				iy := now.base[i].y
+				ix = now.base[i].x
+				iy = now.base[i].y
 				/* see if a Klingon exists in this quadrant */
-				q := &quad[ix][iy]
+				q = &quad[ix][iy]
 				if q.klings <= 0 {
 					continue
 				}
 
 				/* see if already distressed */
-				j := 0
+				j = 0
 				for ; j < MAXEVENTS; j++ {
-					e := &eventList[j]
+					e = &eventList[j]
 					if (e.evcode & E_EVENT) != E_KDESB {
 						continue
 					}
@@ -174,7 +185,7 @@ func events(timeWarp bool) {
 
 		case E_KDESB: /* Klingon destroys starbase */
 			unschedule(e)
-			q := &quad[e.x][e.y]
+			q = &quad[e.x][e.y]
 			/* if the base has mysteriously gone away, or if the Klingon
 			   got tired and went home, ignore this event */
 			if q.bases <= 0 || q.klings <= 0 {
@@ -236,7 +247,7 @@ func events(timeWarp bool) {
 		case E_ENSLV: /* starsystem is enslaved */
 			unschedule(e)
 			/* see if current distress call still active */
-			q := &quad[e.x][e.y]
+			q = &quad[e.x][e.y]
 			if q.klings <= 0 {
 				/* no Klingons, clean up */
 				/* restore the system name */
@@ -257,7 +268,7 @@ func events(timeWarp bool) {
 			}
 
 		case E_REPRO: /* Klingon reproduces */
-			q := &quad[e.x][e.y]
+			q = &quad[e.x][e.y]
 			if q.klings >= 0 {
 				unschedule(e)
 				q.qsystemname = e.systemname
@@ -265,8 +276,8 @@ func events(timeWarp bool) {
 			}
 			xresched(e, E_REPRO, 1)
 			/* reproduce one Klingon */
-			ix := e.x
-			iy := e.y
+			ix = e.x
+			iy = e.y
 			if now.klings == 127 {
 				break /* full right now */
 			}
@@ -282,7 +293,7 @@ func events(timeWarp bool) {
 						if j < 0 || j >= NQUADS {
 							continue
 						}
-						q := &quad[i][j]
+						q = &quad[i][j]
 						/* check for this quad ok (not full & no snova) */
 						if q.klings >= MAXKLQUAD || q.stars < 0 {
 							continue
@@ -306,7 +317,7 @@ func events(timeWarp bool) {
 			if ix == ship.quadx && iy == ship.quady {
 				ix, iy = sector()
 				sect[ix][iy] = KLINGON
-				k := &etc.klingon[etc.nkling]
+				k = &etc.klingon[etc.nkling]
 				etc.nkling++
 				k.x = ix
 				k.y = iy
@@ -334,7 +345,7 @@ func events(timeWarp bool) {
 			reschedule(e, 0.5)
 
 		case E_FIXDV:
-			i := e.systemname
+			i = e.systemname
 			unschedule(e)
 
 			/* de-damage the device */
@@ -362,7 +373,7 @@ func events(timeWarp bool) {
 		}
 	}
 
-	if e := now.eventptr[E_ATTACK]; e != nil {
+	if e = now.eventptr[E_ATTACK]; e != nil {
 		unschedule(e)
 	}
 
@@ -373,7 +384,7 @@ func events(timeWarp bool) {
 		}
 
 		/* regenerate resources */
-		rtime := 1.0 - math.Exp(-param.regenfac*move.time)
+		rtime = 1.0 - math.Exp(-param.regenfac*move.time)
 		ship.shield += int(float64(param.shield-ship.shield) * rtime)
 		ship.energy += int(float64(param.energy-ship.energy) * rtime)
 

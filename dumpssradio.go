@@ -3,9 +3,13 @@ package main
 import "fmt"
 
 func dumpssradio() int {
-	chkrest := 0
+	var (
+		e       *event
+		chkrest int
+	)
+
 	for j := 0; j < MAXEVENTS; j++ {
-		e := &eventList[j]
+		e = &eventList[j]
 		/* if it is not hidden, then just ignore it */
 		if e.evcode&E_HIDDEN == 0 {
 			continue

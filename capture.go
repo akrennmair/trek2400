@@ -3,6 +3,13 @@ package main
 import "fmt"
 
 func capture(v int) {
+	var (
+		i int
+		k *kling
+		x float64
+	)
+
+	/* check for not cloaked */
 	if ship.cloaked {
 		fmt.Printf("Ship-ship communications out when cloaked\n")
 		return
@@ -20,17 +27,17 @@ func capture(v int) {
 	}
 
 	/* if there is more than one Klingon, find out which one */
-	k := selectklingon()
+	k = selectklingon()
 	move.free = false
 	move.time = 0.05
 
 	/* check out that Klingon */
 	k.srndreq = true
-	x := param.klingpwr
-	x *= ship.energy
-	x /= k.power * etc.nkling
-	x = int(float64(x) * param.srndrprob)
-	i := x
+	x = float64(param.klingpwr)
+	x *= float64(ship.energy)
+	x /= float64(k.power * etc.nkling)
+	x *= param.srndrprob
+	i = int(x)
 	if i > ranf(100) {
 		/* guess what, he surrendered!!! */
 		fmt.Printf("Klingon at %d,%d surrenders\n", k.x, k.y)

@@ -109,11 +109,11 @@ func phaser(v int) {
 					break
 				}
 				b.units = hit
-				course := getintpar("course")
-				if course < 0 || course > 360 {
+				hit = getintpar("course")
+				if hit < 0 || hit > 360 {
 					return
 				}
-				b.angle = float64(course) * 0.0174532925
+				b.angle = float64(hit) * 0.0174532925
 				b.spread = getfltpar("spread")
 				if b.spread < 0 || b.spread > 1 {
 					return
@@ -161,7 +161,10 @@ func phaser(v int) {
 				dy = float64(k.y - ship.secty)
 				b.angle = math.Atan2(dy, dx)
 				b.spread = 0.0
-				b.units = ((n - i) / int(tot)) * extra
+				b.units = int((float64(n-i) / tot) * float64(extra))
+
+				tracef("phasers: b%d hr%d u%d df%.2f af%.2f a%.2f", i, hitreqd[i], b.units, distfactor, anglefactor, b.angle)
+
 				extra -= b.units
 				hit = b.units - hitreqd[i]
 				if hit > 0 {
@@ -193,7 +196,15 @@ func phaser(v int) {
 		}
 	}
 
-	kidx := 0
+	for i := 0; i < NBANKS; i++ {
+		b = &bank[i]
+		if b.units > 0 {
+			tracef("b%d u%d a%.2f s%.f", i, b.units, b.angle, b.spread)
+		} else {
+			tracef("b%d u%d", i, b.units)
+		}
+	}
+
 	move.free = false
 	for i = 0; i < NBANKS; i++ {
 		b = &bank[i]
@@ -202,11 +213,13 @@ func phaser(v int) {
 		}
 		fmt.Printf("\nPhaser bank %d fires:\n", i)
 		n = etc.nkling
-		k = &etc.klingon[kidx]
+		kidx := 0
 		for j = 0; j < n; j++ {
 			if b.units <= 0 {
 				break
 			}
+
+			k = &etc.klingon[kidx]
 
 			// TODO: copy documentation
 			distfactor = BETA + franf()
@@ -219,6 +232,7 @@ func phaser(v int) {
 			dy = float64(k.y - ship.secty)
 			anglefactor = math.Atan2(dy, dx) - b.angle
 			anglefactor = math.Cos((anglefactor * b.spread) + GAMMA)
+			tracef("fire: b%d k%d af%.2f d%.2f sp%.2f", i, j, anglefactor, distfactor, b.spread)
 			if anglefactor < 0.0 {
 				kidx++
 				continue
@@ -239,6 +253,7 @@ func phaser(v int) {
 		}
 	}
 
+	/* computer overkill */
 	for i = 0; i < NBANKS; i++ {
 		extra += bank[i].units
 	}

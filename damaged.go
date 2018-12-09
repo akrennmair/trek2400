@@ -8,10 +8,15 @@ package main
  */
 
 func damaged(dev int) bool {
-	d := dev
+	var (
+		d int
+		e *event
+	)
+
+	d = dev
 
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}

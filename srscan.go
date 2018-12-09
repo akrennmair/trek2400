@@ -3,7 +3,13 @@ package main
 import "fmt"
 
 func srscan(f int) {
-	var statinfo bool
+	var (
+		statinfo bool
+		s        string
+		percent  int
+		q        *quadrant
+		p        *cvntab
+	)
 
 	if f >= 0 && check_out(SRSCAN) {
 		return
@@ -21,7 +27,6 @@ func srscan(f int) {
 		etc.statreport = true
 	}
 
-	var q *quadrant
 	if f >= 0 {
 		fmt.Printf("\nShort range sensor scan\n")
 		q = &quad[ship.quadx][ship.quady]
@@ -62,14 +67,14 @@ func srscan(f int) {
 			case 5:
 				fmt.Printf("torpedoes     %d", ship.torped)
 			case 6:
-				s := "down"
+				s = "down"
 				if ship.shldup {
 					s = "up"
 				}
 				if damaged(SHIELD) {
 					s = "damaged"
 				}
-				percent := 100 * ship.shield / param.shield
+				percent = 100 * ship.shield / param.shield
 				fmt.Printf("shields       %s, %d%%", s, percent)
 			case 7:
 				fmt.Printf("Klingons left %d", now.klings)
@@ -95,7 +100,7 @@ func srscan(f int) {
 			l--
 		}
 
-		p := &lentab[l]
+		p = &lentab[l]
 		fmt.Printf("Length, Skill %s, ", p.full)
 		p = &skilltab[game.skill-1]
 		fmt.Printf("%s\n", p.full)

@@ -5,6 +5,12 @@ import "fmt"
 // TODO: decide whether it's Faire Queene or Fairie Queene
 
 func abandon(v int) {
+	var (
+		q *quadrant
+		i int
+		e *event
+	)
+
 	if ship.ship == QUEENE {
 		fmt.Printf("You may not abandon yet Faire Queene\n")
 		return
@@ -17,7 +23,7 @@ func abandon(v int) {
 		}
 		fmt.Printf("Officers escape in shuttlecraft\n")
 		/* decide on fate of crew */
-		q := &quad[ship.quadx][ship.quady]
+		q = &quad[ship.quadx][ship.quady]
 		if q.qsystemname == 0 || damaged(XPORTER) {
 			fmt.Printf("Entire crew of %d left to die in outer space\n", ship.crew)
 			game.deaths += ship.crew
@@ -48,14 +54,14 @@ func abandon(v int) {
 	ship.cond = GREEN
 	/* clear out damages on old ship */
 	for i := 0; i < MAXEVENTS; i++ {
-		e := &eventList[i]
+		e = &eventList[i]
 		if e.evcode != E_FIXDV {
 			continue
 		}
 		unschedule(e)
 	}
 	/* get rid of some devices and redistribute probabilities */
-	i := int(param.damprob[SHUTTLE] + param.damprob[CLOAK])
+	i = int(param.damprob[SHUTTLE] + param.damprob[CLOAK])
 	param.damprob[SHUTTLE] = 0
 	param.damprob[CLOAK] = 0
 	for i > 0 {

@@ -3,6 +3,8 @@ package main
 import "fmt"
 
 func lrscan(v int) {
+	var q *quadrant
+
 	if check_out(LRSCAN) {
 		return
 	}
@@ -34,7 +36,7 @@ func lrscan(v int) {
 				fmt.Printf("  *  !")
 				continue
 			}
-			q := &quad[i][j]
+			q = &quad[i][j]
 			if q.stars < 0 {
 				/* supernova */
 				fmt.Printf(" /// !")

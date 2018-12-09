@@ -3,6 +3,8 @@ package main
 import "fmt"
 
 func nova(x, y int) {
+	var se byte
+
 	if sect[x][y] != STAR || quad[ship.quadx][ship.quady].stars < 0 {
 		return
 	}
@@ -28,7 +30,7 @@ func nova(x, y int) {
 			continue
 		}
 		for j := y - 1; j <= y+1; j++ {
-			se := sect[i][j]
+			se = sect[i][j]
 			switch se {
 			case EMPTY, HOLE:
 				// nothing
@@ -42,17 +44,17 @@ func nova(x, y int) {
 				killb(i, j)
 				game.killb += 1
 			case ENTERPRISE, QUEENE:
-				explosion := 2000
+				expl := 2000
 				if ship.shldup {
-					if ship.shield >= explosion {
-						ship.shield -= explosion
-						explosion = 0
+					if ship.shield >= expl {
+						ship.shield -= expl
+						expl = 0
 					} else {
-						explosion -= ship.shield
+						expl -= ship.shield
 						ship.shield = 0
 					}
 				}
-				ship.energy -= explosion
+				ship.energy -= expl
 				if ship.energy <= 0 {
 					lose(L_SUICID)
 				}
