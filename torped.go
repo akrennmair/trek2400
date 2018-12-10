@@ -159,8 +159,9 @@ func randcourse(n int) int {
 			fmt.Printf(" on torpedo %d\n", n)
 		}
 		if ranf(2) != 0 {
-			damage(TORPED, 0.2*math.Abs(float64(d))+(franf()+1.0))
+			damage(TORPED, 0.2*math.Abs(float64(d))*(franf()+1.0))
 		}
+		d = int(float64(d) * (1.0 + 2.0*franf()))
 	}
 	if ship.shldup || ship.cond == DOCKED {
 		r = float64(ship.shield)

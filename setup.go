@@ -62,8 +62,8 @@ func setup() {
 		rand.Seed(int64(d))
 	}
 
-	param.bases = ranf(6-game.skill) + 2
-	now.bases = param.bases
+	now.bases = ranf(6-game.skill) + 2
+	param.bases = now.bases
 
 	if game.skill == 6 {
 		param.bases, now.bases = 1, 1
@@ -232,7 +232,7 @@ func setup() {
 		for {
 			ix = ranf(NQUADS)
 			iy = ranf(NQUADS)
-			q := &quad[ix][iy]
+			q = &quad[ix][iy]
 			if q.bases > 0 {
 				continue
 			}
