@@ -3,17 +3,25 @@ package main
 import "fmt"
 
 func score() int {
+	var (
+		u int
+		t int
+		s int
+		r float64
+	)
+
 	fmt.Printf("\n*** Your score:\n")
-	u := game.killk
-	s := param.klingpwr / 4 * u
-	t := s
+	u = game.killk
+	s = param.klingpwr / 4 * u
+	t = s
 	if t != 0 {
 		fmt.Printf("%d Klingons killed\t\t\t%6d\n", u, t)
 	}
-	r := now.date - param.date
+	r = now.date - param.date
 	if r < 1.0 {
 		r = 1.0
 	}
+	r = float64(game.killk) / r
 	t = int(400 * r)
 	s += t
 	if t != 0 {
