@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"os"
+
+	"github.com/fatih/color"
 )
 
 var cputab = []cvntab{
@@ -52,22 +54,38 @@ func computer(v int) {
 				fmt.Printf("%d ", i)
 				for j := 0; j < NQUADS; j++ {
 					if i == ship.quadx && j == ship.quady {
-						fmt.Printf("$$$ ")
+						fmt.Printf("%s", color.HiWhiteString("o-= "))
 						continue
 					}
 					q = &quad[i][j]
 					/* 1000 or 1001 is special case */
 					if q.scanned >= 1000 {
 						if q.scanned > 1000 {
-							fmt.Printf(".1. ")
+							fmt.Printf(".%s. ", color.CyanString("1"))
 						} else {
-							fmt.Printf("/// ")
+							fmt.Printf("%s", color.HiRedString("/// "))
 						}
 					} else {
 						if q.scanned < 0 {
 							fmt.Printf("... ")
 						} else {
-							fmt.Printf("%3d ", q.scanned)
+							enemies := q.scanned / 100
+							bases := (q.scanned / 10) % 10
+							stars := q.scanned % 10
+
+							if enemies > 0 {
+								fmt.Printf("%s", color.RedString("%d", enemies))
+							} else {
+								fmt.Printf(" ")
+							}
+
+							if bases > 0 {
+								fmt.Printf("%s", color.CyanString("%d", bases))
+							} else {
+								fmt.Printf(" ")
+							}
+
+							fmt.Printf("%s", color.YellowString("%d ", stars))
 						}
 					}
 				}

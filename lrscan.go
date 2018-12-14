@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/fatih/color"
+)
 
 func lrscan(v int) {
 	var q *quadrant
@@ -39,12 +43,25 @@ func lrscan(v int) {
 			q = &quad[i][j]
 			if q.stars < 0 {
 				/* supernova */
-				fmt.Printf(" /// !")
+				fmt.Printf(" %s !", color.HiRedString("///"))
 				q.scanned = 1000
 				continue
 			}
 			q.scanned = q.klings*100 + q.bases*10 + q.stars
-			fmt.Printf(" %3d !", q.scanned)
+			fmt.Printf(" ")
+			if q.klings > 0 {
+				fmt.Printf("%s", color.RedString("%d", q.klings))
+			} else {
+				fmt.Printf(" ")
+			}
+
+			if q.bases > 0 {
+				fmt.Printf("%s", color.CyanString("%d", q.bases))
+			} else {
+				fmt.Printf(" ")
+			}
+
+			fmt.Printf("%s !", color.YellowString("%d", q.stars))
 		}
 	}
 	fmt.Printf("\n  -------------------\n")

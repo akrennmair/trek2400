@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/fatih/color"
+)
 
 func srscan(f int) {
 	var (
@@ -42,7 +46,21 @@ func srscan(f int) {
 		if f >= 0 {
 			fmt.Printf("%d ", i)
 			for j := 0; j < NSECTS; j++ {
-				fmt.Printf("%c ", sect[i][j])
+				var s string
+				c := sect[i][j]
+				switch c {
+				case BASE:
+					s = color.CyanString("%c ", c)
+				case STAR:
+					s = color.YellowString("%c ", c)
+				case KLINGON:
+					s = color.RedString("%c ", c)
+				case ENTERPRISE, QUEENE:
+					s = color.HiWhiteString("%c ", c)
+				default:
+					s = fmt.Sprintf("%c ", sect[i][j])
+				}
+				fmt.Print(s)
 			}
 			fmt.Printf("%d", i)
 			if statinfo {
@@ -54,7 +72,7 @@ func srscan(f int) {
 			case 0:
 				fmt.Printf("stardate      %.2f", now.date)
 			case 1:
-				fmt.Printf("condition     %s", color[ship.cond])
+				fmt.Printf("condition     %s", condColor[ship.cond])
 				if ship.cloaked {
 					fmt.Printf(", CLOAKED")
 				}
@@ -120,4 +138,4 @@ func srscan(f int) {
 	}
 }
 
-var color = []string{"GREEN", "DOCKED", "YELLOW", "RED"}
+var condColor = []string{"GREEN", "DOCKED", "YELLOW", "RED"}
