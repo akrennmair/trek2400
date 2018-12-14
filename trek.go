@@ -249,6 +249,8 @@ type Etc struct {
 	starbase   xy       /* starbase in current quadrant */
 	snapshot   snapshot /*snapshot for time warp */
 	statreport bool     /* set to get a status report on a srscan */
+
+	firstContact bool /* set true after we've had first enemy contact */
 }
 
 type snapshot struct {

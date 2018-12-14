@@ -22,6 +22,11 @@ func initquad(f int) {
 	nstars = q.stars
 	nholes = q.holes
 
+	if etc.nkling > 0 && !etc.firstContact {
+		etc.firstContact = true
+		printEnemyGreeting()
+	}
+
 	/* have we blundered into a battle zone w/ shields down? */
 	if etc.nkling > 0 && f == 0 {
 		fmt.Printf("Condition RED\n")
