@@ -23,7 +23,15 @@ func main() {
 		rand.Seed(time.Now().UnixNano() ^ int64(os.Getpid()))
 	}
 
-	fmt.Printf("\n   * * *   S T A R   T R E K   * * *\n\nPress return to continue.\n")
+	fmt.Printf("\n   * * *   S T A R   T R E K   * * *\n\n")
+	fmt.Printf("        __________________           __\n")
+	fmt.Printf("        \\_________________|)____.---'--`---.____\n")
+	fmt.Printf("                      ||    \\----.________.----/\n")
+	fmt.Printf("                      ||     / /    `--'\n")
+	fmt.Printf("                    __||____/ /_\n")
+	fmt.Printf("                   |___         \\\n")
+	fmt.Printf("                       `--------'\n")
+	fmt.Printf("\nPress return to continue.\n")
 
 	for {
 		func() {
