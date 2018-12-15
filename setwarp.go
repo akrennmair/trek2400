@@ -11,7 +11,7 @@ func setwarp(v int) {
 		fmt.Printf("Minimum warp speed is 1.0\n")
 		return
 	}
-	if warpfac > 10.0 { // TODO: warp 10 should be impossible
+	if warpfac > 10.0 {
 		fmt.Printf("Maximum speed is warp 10.0\n")
 		return
 	}
