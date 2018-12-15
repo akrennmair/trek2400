@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// TODO: decide whether it's Faire Queene or Fairie Queene
-
 func abandon(v int) {
 	var (
 		q *quadrant
@@ -12,7 +10,7 @@ func abandon(v int) {
 	)
 
 	if ship.ship == QUEENE {
-		fmt.Printf("You may not abandon yet Faire Queene\n")
+		fmt.Printf("You may not abandon yet Faerie Queene\n")
 		return
 	}
 
@@ -37,9 +35,9 @@ func abandon(v int) {
 	}
 	/* re-outfit new ship */
 	fmt.Printf("You are hereby put in charge of an antiquated but still\n")
-	fmt.Printf("  functional ship, the Fairie Queene.\n")
+	fmt.Printf("  functional ship, the Faerie Queene.\n")
 	ship.ship = QUEENE
-	ship.shipname = "Fairie Queene"
+	ship.shipname = "Faerie Queene"
 	param.energy = 3000
 	ship.energy = 3000
 	param.torped = 6
