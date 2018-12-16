@@ -65,14 +65,14 @@ const (
 	E_EVENT  = 077  /* mask to get event code */
 
 	/* defines for sector map  (below) */
-	EMPTY      = '.'
-	STAR       = '*'
-	BASE       = '#'
-	ENTERPRISE = 'E'
-	QUEENE     = 'Q'
-	ENEMY      = 'K'
-	INHABIT    = '@'
-	HOLE       = ' '
+	EMPTY    = '.'
+	STAR     = '*'
+	BASE     = '#'
+	MAINSHIP = 'E'
+	QUEENE   = 'Q'
+	ENEMY    = 'K'
+	INHABIT  = '@'
+	HOLE     = ' '
 
 	/* you lose codes */
 	L_NOTIME   = 1  /* ran out of time */
@@ -90,9 +90,14 @@ const (
 	L_NOCREW   = 13 /* you ran out of crew */
 
 	TOOLARGE = 1e50
+
+	/* time periods */
+	TOS = 1
+	TNG = 2
 )
 
 type Game struct {
+	period        int    /* time period/theme */
 	enemiesKilled int    /* number of enemies killed */
 	deaths        int    /* number of deaths onboard Enterprise */
 	negenbar      int    /* number of hits on negative energy barrier */
@@ -204,20 +209,20 @@ type device struct {
 }
 
 var devices = []device{
-	{"warp drive", &names.engineer},
-	{"S.R. scanners", &names.engineer},
-	{"L.R. scanners", &names.engineer},
-	{"phasers", &names.helmsman},
-	{"photon tubes", &names.helmsman},
-	{"impulse engines", &names.engineer},
-	{"shield control", &names.helmsman},
-	{"computer", &names.firstOfficer},
-	{"subspace radio", &names.comms},
-	{"life support", &names.engineer},
-	{"navigation system", &names.navigator},
-	{"cloaking device", &names.engineer},
-	{"transporter", &names.engineer},
-	{"shuttlecraft", &names.engineer},
+	{"warp drive", &period.engineer},
+	{"S.R. scanners", &period.engineer},
+	{"L.R. scanners", &period.engineer},
+	{"phasers", &period.helmsman},
+	{"photon tubes", &period.helmsman},
+	{"impulse engines", &period.engineer},
+	{"shield control", &period.helmsman},
+	{"computer", &period.firstOfficer},
+	{"subspace radio", &period.comms},
+	{"life support", &period.engineer},
+	{"navigation system", &period.navigator},
+	{"cloaking device", &period.engineer},
+	{"transporter", &period.engineer},
+	{"shuttlecraft", &period.engineer},
 }
 
 type quadrant struct {
@@ -271,23 +276,33 @@ type enemy struct {
 
 var sect [NSECTS][NSECTS]byte
 
-type Names struct {
-	comms           string // Uhura
-	helmsman        string // Sulu
-	doctor          string // McCoy
-	navigator       string // Chekov
-	firstOfficer    string // Spock
-	engineer        string // Scotty
-	captain         string // Kirk
-	captainNickName string // Jim
-	yeoman          string // Yeoman Rand
+type Period struct {
+	comms           string
+	helmsman        string
+	doctor          string
+	navigator       string
+	firstOfficer    string
+	engineer        string
+	captain         string
+	captainNickName string
+	yeoman          string
 
-	enemy string // Klingon
+	enemy    string
+	shipname string
+
+	energy         int
+	torped         int
+	shield         int
+	crew           int
+	brigfree       int
+	enemyPowerStep int
+	cloakenergy    int
+	energylow      int
 }
 
-var names Names
+var period Period
 
-var tosNames = Names{
+var tosPeriod = Period{
 	comms:           "Uhura",
 	helmsman:        "Sulu",
 	doctor:          "McCoy",
@@ -298,4 +313,35 @@ var tosNames = Names{
 	captainNickName: "Jim",
 	yeoman:          "Yeoman Rand",
 	enemy:           "Klingon",
+	shipname:        "Enterprise",
+	energy:          5000,
+	torped:          10,
+	shield:          1500,
+	crew:            387,
+	brigfree:        400,
+	enemyPowerStep:  150,
+	cloakenergy:     1000,
+	energylow:       1000,
+}
+
+var tngPeriod = Period{
+	comms:           "Worf",
+	helmsman:        "Data",
+	doctor:          "Dr. Crusher",
+	navigator:       "Tasha Yar",
+	firstOfficer:    "Riker",
+	engineer:        "LaForge",
+	captain:         "Picard",
+	captainNickName: "Jean-Luc",
+	yeoman:          "Wesley Crusher",
+	enemy:           "Romulan",
+	shipname:        "Enterprise-D",
+	energy:          5000,
+	torped:          10,
+	shield:          1500,
+	crew:            387,
+	brigfree:        400,
+	enemyPowerStep:  150,
+	cloakenergy:     1000,
+	energylow:       1000,
 }

@@ -10,13 +10,13 @@ func ram(ix, iy int) {
 	c := sect[ix][iy]
 	switch c {
 	case ENEMY:
-		fmt.Printf("%s rams %s at %d,%d\n", ship.shipname, names.enemy, ix, iy)
+		fmt.Printf("%s rams %s at %d,%d\n", ship.shipname, period.enemy, ix, iy)
 		killEnemy(ix, iy)
 
 	case STAR, INHABIT:
-		fmt.Printf("%s: Captain, isn't it getting hot in here?\n", names.yeoman)
+		fmt.Printf("%s: Captain, isn't it getting hot in here?\n", period.yeoman)
 		time.Sleep(2)
-		fmt.Printf("%s: Hull temperature approaching 550 Degrees Kelvin.\n", names.firstOfficer) // TODO: what's maximum temperature Enterprise can sustain?
+		fmt.Printf("%s: Hull temperature approaching 550 Degrees Kelvin.\n", period.firstOfficer) // TODO: what's maximum temperature Enterprise can sustain?
 		lose(L_STAR)
 
 	case BASE:
@@ -35,7 +35,7 @@ func ram(ix, iy int) {
 	i := 10 + ranf(20*game.skill)
 	game.deaths += i
 	ship.crew -= i
-	fmt.Printf("%s: Take it easy %s; we had %d casualties.\n", names.doctor, names.captainNickName, i)
+	fmt.Printf("%s: Take it easy %s; we had %d casualties.\n", period.doctor, period.captainNickName, i)
 
 	/* damage devices with an 80% probability */
 	for i := 0; i < len(devices); i++ {

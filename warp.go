@@ -45,7 +45,7 @@ func warp(fl, c int, d float64) {
 	power = (dist + 0.05) * ship.warp3
 	percent = int(100*power/float64(ship.energy) + 0.5)
 	if percent >= 85 {
-		fmt.Printf("%s: That would consume %d%% of our remaining energy.\n", names.engineer, percent)
+		fmt.Printf("%s: That would consume %d%% of our remaining energy.\n", period.engineer, percent)
 		if !getynpar("Are you sure that is wise") {
 			return
 		}
@@ -58,7 +58,7 @@ func warp(fl, c int, d float64) {
 	/* check to see that that value is not ridiculous */
 	percent = int(100*p_time/now.time + 0.5)
 	if percent >= 85 {
-		fmt.Printf("%s: That would take %d%% of our remaining time.\n", names.firstOfficer, percent)
+		fmt.Printf("%s: That would take %d%% of our remaining time.\n", period.firstOfficer, percent)
 		if !getynpar("Are you sure that is wise") {
 			return
 		}

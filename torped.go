@@ -118,7 +118,7 @@ func torped(v int) {
 					}
 					etc.enemyList[k].power -= 500 + ranf(501)
 					if etc.enemyList[k].power > 0 {
-						fmt.Printf("*** Hit on %s at %d,%d: extensive damages\n", names.enemy, ix, iy)
+						fmt.Printf("*** Hit on %s at %d,%d: extensive damages\n", period.enemy, ix, iy)
 						break
 					}
 					killEnemy(ix, iy)

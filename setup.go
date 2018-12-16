@@ -22,6 +22,11 @@ var (
 		{abrev: "c", full: "commodore", intValue: 5},
 		{abrev: "i", full: "impossible", intValue: 6},
 	}
+
+	shiptab = []cvntab{
+		{abrev: "", full: "ncc1701", intValue: TOS},
+		{abrev: "", full: "ent-d", intValue: TNG},
+	}
 )
 
 func setup() {
@@ -36,7 +41,7 @@ func setup() {
 		sum    float64
 	)
 
-	names = tosNames
+	period = tosPeriod
 
 	for {
 		r = getcodpar("What length game", lentab)
@@ -52,6 +57,17 @@ func setup() {
 
 	r = getcodpar("What skill game", skilltab)
 	game.skill = r.intValue
+
+	r = getcodpar("Which ship", shiptab)
+	game.period = r.intValue
+	switch game.period {
+	case TOS:
+		period = tosPeriod
+	case TNG:
+		period = tngPeriod
+		// TODO: implement more time periods.
+	}
+
 	game.tourn = false
 	game.passwd = getstrpar("Enter a password")
 	if game.passwd == "tournament" {
@@ -89,17 +105,23 @@ func setup() {
 		param.enemies = now.enemies
 	}
 
-	param.energy, ship.energy = 5000, 5000
-	param.torped, ship.torped = 10, 10
-	ship.ship = ENTERPRISE
-	ship.shipname = "Enterprise"
-	param.shield, ship.shield = 1500, 1500
+	param.energy = period.energy
+	ship.energy = param.energy
+
+	param.torped = period.torped
+	ship.torped = param.torped
+	ship.ship = MAINSHIP
+	ship.shipname = period.shipname
+	param.shield = period.shield
+	ship.shield = param.shield
 
 	param.resource = float64(param.enemies) * param.time
 	now.resource = param.resource
 
-	param.crew, ship.crew = 387, 387
-	param.brigfree, ship.brigfree = 400, 400
+	param.crew = period.crew
+	ship.crew = param.crew
+	param.brigfree = period.brigfree
+	ship.brigfree = param.brigfree
 
 	ship.shldup = true
 	ship.cond = GREEN
@@ -151,9 +173,9 @@ func setup() {
 	param.stopengy = 50
 	param.shupengy = 40
 	i = game.skill
-	param.enemyPower = 100 + 150*i
+	param.enemyPower = 100 + period.enemyPowerStep*i
 	if i >= 6 {
-		param.enemyPower += 150
+		param.enemyPower += period.enemyPowerStep
 	}
 	param.phasfac = 0.8
 	param.hitfac = 0.5
@@ -186,8 +208,8 @@ func setup() {
 		E_REPRO: 2.0,
 	}
 	param.navigcrud = []float64{1.50, 0.75}
-	param.cloakenergy = 1000
-	param.energylow = 1000
+	param.cloakenergy = period.cloakenergy
+	param.energylow = period.energylow
 
 	for i := 0; i < MAXEVENTS; i++ {
 		e = &eventList[i]
@@ -251,7 +273,7 @@ func setup() {
 		}
 	}
 
-	/* position klingons */
+	/* position enemies */
 	for i := param.enemies; i > 0; {
 		klump = ranf(4) + 1
 		if klump > i {
@@ -271,7 +293,7 @@ func setup() {
 	}
 
 	/* initialize this quadrant */
-	fmt.Printf("%d %ss\n%d starbase", param.enemies, names.enemy, param.bases)
+	fmt.Printf("%d %ss\n%d starbase", param.enemies, period.enemy, param.bases)
 	if param.bases > 1 {
 		fmt.Printf("s")
 	}
@@ -279,7 +301,7 @@ func setup() {
 	for i := 1; i < param.bases; i++ {
 		fmt.Printf(", %d,%d", now.base[i].x, now.base[i].y)
 	}
-	fmt.Printf("\nIt takes %d units to kill a %s\n", param.enemyPower, names.enemy)
+	fmt.Printf("\nIt takes %d units to kill a %s\n", param.enemyPower, period.enemy)
 	move.free = false
 	initquad(0)
 	srscan(1)

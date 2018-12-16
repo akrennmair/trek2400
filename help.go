@@ -18,7 +18,7 @@ func help(v int) {
 
 	/* check to see if calling for help is reasonable ... */
 	if ship.cond == DOCKED {
-		fmt.Printf("%s: But Captain, we're already docked\n", names.comms)
+		fmt.Printf("%s: But Captain, we're already docked\n", period.comms)
 		return
 	}
 
@@ -28,7 +28,7 @@ func help(v int) {
 		return
 	}
 	if now.bases <= 0 {
-		fmt.Printf("%s: I'm not getting any response from starbase\n", names.comms)
+		fmt.Printf("%s: I'm not getting any response from starbase\n", period.comms)
 		return
 	}
 

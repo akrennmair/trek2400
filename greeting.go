@@ -6,15 +6,33 @@ import (
 )
 
 func printEnemyGreeting() {
-	fmt.Printf("\n%s: incoming message from the %s ship, sir!\n\n", names.enemy, names.comms)
-	fmt.Printf("   \"%s!\"\n\n", randomKlingonProverb())
+	fmt.Printf("\n%s: incoming message from the %s ship, sir!\n\n", period.comms, period.enemy)
 
-	fmt.Printf("          ____\n")
-	fmt.Printf("         |____\\_____           _O__\n")
-	fmt.Printf("    \\---------------\\_________======\n")
-	fmt.Printf("     \\        ______/         \\____)\n")
-	fmt.Printf(" ____/  /\\  |/_\n")
-	fmt.Printf(" }_____________}\n")
+	switch game.period {
+	case TOS:
+		fmt.Printf("   \"%s!\"\n\n", randomKlingonProverb())
+
+		fmt.Printf("          ____\n")
+		fmt.Printf("         |____\\_____           _O__\n")
+		fmt.Printf("    \\---------------\\_________======\n")
+		fmt.Printf("     \\        ______/         \\____)\n")
+		fmt.Printf(" ____/  /\\  |/_\n")
+		fmt.Printf(" }_____________}\n")
+	case TNG:
+		fmt.Printf("   \"%s!\"\n\n", randomRomulanMessage())
+
+		fmt.Printf("		____.-----.n.----._________.-.______\n")
+		fmt.Printf("		___,----'     \\|||||  _______________________`-._\n")
+		fmt.Printf("	.--'    n                 \\------------------, ` \\___`.\n")
+		fmt.Printf("__,-' _____________             \\          `-===|  \\@\\      \\\n")
+		fmt.Printf("/-----'  /        __\\______.......|____        ==|   \\_) -----\\\n")
+		fmt.Printf("|@ .-----|        |         |      |_  /         -\\     =======\\`\n")
+		fmt.Printf("|  `-----|        |_________|......|___\\___________\\          __\\\n")
+		fmt.Printf("\\-----.__\\__________/             |_______.--------`._       `. \\\n")
+		fmt.Printf("`-.__                           / _/                 `--.__   \\|\n")
+		fmt.Printf("	`-._u                    .'-'                         `-. |\n")
+		fmt.Printf("		 `---.___________.--'                                \\|\n")
+	}
 
 	fmt.Printf("\n")
 
@@ -36,4 +54,13 @@ var proverbs = []string{
 
 func randomKlingonProverb() string {
 	return proverbs[rand.Intn(len(proverbs))]
+}
+
+var romulanMessages = []string{
+	"We're annexing this quadrant in the name of the Romulan Star Empire",
+	"You will surrender as prisoners of war",
+}
+
+func randomRomulanMessage() string {
+	return romulanMessages[rand.Intn(len(romulanMessages))]
 }

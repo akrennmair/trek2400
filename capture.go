@@ -22,7 +22,7 @@ func capture(v int) {
 
 	/* find out if there are any at all */
 	if etc.enemyCount <= 0 {
-		fmt.Printf("%s: Getting no response, sir\n", names.comms)
+		fmt.Printf("%s: Getting no response, sir\n", period.comms)
 		return
 	}
 
@@ -40,10 +40,10 @@ func capture(v int) {
 	i = int(x)
 	if i > ranf(100) {
 		/* guess what, he surrendered!!! */
-		fmt.Printf("%s at %d,%d surrenders\n", names.enemy, k.x, k.y)
+		fmt.Printf("%s at %d,%d surrenders\n", period.enemy, k.x, k.y)
 		i = ranf(param.enemyCrew)
 		if i > 0 {
-			fmt.Printf("%d %ss commit suicide rather than be taken captive\n", names.enemy, param.enemyCrew-i)
+			fmt.Printf("%d %ss commit suicide rather than be taken captive\n", period.enemy, param.enemyCrew-i)
 		}
 		if i > ship.brigfree {
 			i = ship.brigfree

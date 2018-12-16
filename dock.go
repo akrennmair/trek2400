@@ -9,7 +9,7 @@ func dock(v int) {
 	)
 
 	if ship.cond == DOCKED {
-		fmt.Printf("%s: But captain, we are already docked\n", names.navigator)
+		fmt.Printf("%s: But captain, we are already docked\n", period.navigator)
 		return
 	}
 
@@ -30,7 +30,7 @@ func dock(v int) {
 		}
 	}
 	if !ok {
-		fmt.Printf("%s: But captain, we are not adjacent to a starbase.\n", names.navigator)
+		fmt.Printf("%s: But captain, we are not adjacent to a starbase.\n", period.navigator)
 		return
 	}
 
@@ -68,7 +68,7 @@ func undock(_ int) {
 	var e *event
 
 	if ship.cond != DOCKED {
-		fmt.Printf("%s: Pardon me captain, but we are not docked.\n", names.helmsman)
+		fmt.Printf("%s: Pardon me captain, but we are not docked.\n", period.helmsman)
 		return
 	}
 

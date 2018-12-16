@@ -15,7 +15,7 @@ func score() int {
 	s = param.enemyPower / 4 * u
 	t = s
 	if t != 0 {
-		fmt.Printf("%d %ss killed\t\t\t%6d\n", u, names.enemy, t)
+		fmt.Printf("%d %ss killed\t\t\t%6d\n", u, period.enemy, t)
 	}
 	r = now.date - param.date
 	if r < 1.0 {
@@ -25,14 +25,14 @@ func score() int {
 	t = int(400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Kill rate %.2f %ss/stardate  \t%6d\n", names.enemy, r, t)
+		fmt.Printf("Kill rate %.2f %ss/stardate  \t%6d\n", period.enemy, r, t)
 	}
 	r = float64(now.enemies)
 	r /= float64(game.enemiesKilled + 1)
 	t = int(-400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", names.enemy, now.enemies, t)
+		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", period.enemy, now.enemies, t)
 	}
 	if move.endgame > 0 {
 		u = game.skill
@@ -68,7 +68,7 @@ func score() int {
 	if t != 0 {
 		fmt.Printf("%d inhabited starsystems destroyed\t%6d\n", u, t)
 	}
-	if ship.ship != ENTERPRISE {
+	if ship.ship != MAINSHIP {
 		s -= 200
 		fmt.Printf("penalty for abandoning ship\t\t  -200\n")
 	}
@@ -76,7 +76,7 @@ func score() int {
 	t = 3 * u
 	s += t
 	if t != 0 {
-		fmt.Printf("%d %ss captured\t\t\t%6d\n", u, names.enemy, t)
+		fmt.Printf("%d %ss captured\t\t\t%6d\n", u, period.enemy, t)
 	}
 	u = game.deaths
 	t = -u

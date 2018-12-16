@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func killEnemy(ix, iy int) {
-	fmt.Printf("   *** %s at %d,%d destroyed ***\n", names.enemy, ix, iy)
+	fmt.Printf("   *** %s at %d,%d destroyed ***\n", period.enemy, ix, iy)
 
 	/* remove the scoundrel */
 	now.enemies -= 1
@@ -71,7 +71,7 @@ func killb(qx, qy int) {
 		fmt.Printf("Starbase at %d,%d destroyed\n", etc.starbase.x, etc.starbase.y)
 	} else {
 		if !damaged(SSRADIO) {
-			fmt.Printf("%s: Starfleet command reports that the starbase in\n", names.comms)
+			fmt.Printf("%s: Starfleet command reports that the starbase in\n", period.comms)
 			fmt.Printf("   quadrant %d,%d has been destroyed\n", qx, qy)
 		} else {
 			schedule(E_KATSB|E_GHOST, TOOLARGE, qx, qy, 0)

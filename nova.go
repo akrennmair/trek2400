@@ -9,14 +9,14 @@ func nova(x, y int) {
 		return
 	}
 	if ranf(100) < 15 {
-		fmt.Printf("%s: Star at %d,%d failed to nova.\n", names.firstOfficer, x, y)
+		fmt.Printf("%s: Star at %d,%d failed to nova.\n", period.firstOfficer, x, y)
 		return
 	}
 	if ranf(100) < 5 {
 		snova(x, y)
 		return
 	}
-	fmt.Printf("%s: Star at %d,%d gone nova\n", names.firstOfficer, x, y)
+	fmt.Printf("%s: Star at %d,%d gone nova\n", period.firstOfficer, x, y)
 	if ranf(4) != 0 {
 		sect[x][y] = EMPTY
 	} else {
@@ -43,7 +43,7 @@ func nova(x, y int) {
 			case BASE:
 				killb(i, j)
 				game.killb += 1
-			case ENTERPRISE, QUEENE:
+			case MAINSHIP, QUEENE:
 				expl := 2000
 				if ship.shldup {
 					if ship.shield >= expl {

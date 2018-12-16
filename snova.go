@@ -63,7 +63,7 @@ func snova(x, y int) {
 	} else {
 		if !damaged(SSRADIO) {
 			q.scanned = 1000
-			fmt.Printf("\n%s: Captain, Starfleet Command reports a supernova\n", names.comms)
+			fmt.Printf("\n%s: Captain, Starfleet Command reports a supernova\n", period.comms)
 			fmt.Printf("  in quadrant %d,%d.  Caution is advised\n", qx, qy)
 		}
 	}
@@ -90,7 +90,7 @@ func snova(x, y int) {
 	q.stars = -1
 	q.enemies = 0
 	if now.enemies <= 0 {
-		fmt.Printf("Lucky devil, that supernova destroyed the last %s\n", names.enemy)
+		fmt.Printf("Lucky devil, that supernova destroyed the last %s\n", period.enemy)
 		win()
 	}
 }

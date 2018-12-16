@@ -14,7 +14,7 @@ func win() {
 	s := score()
 
 	/* decide if she gets a promotion */
-	if game.helps == 0 && game.killb == 0 && game.killinhab == 0 && 5*game.kills+game.deaths < 100 && s >= 1000 && ship.ship == ENTERPRISE {
+	if game.helps == 0 && game.killb == 0 && game.killinhab == 0 && 5*game.kills+game.deaths < 100 && s >= 1000 && ship.ship == MAINSHIP {
 		fmt.Printf("In fact, you are promoted one step in rank,\n")
 		if game.skill >= 6 {
 			fmt.Printf("to the exalted rank of Commodore Emeritus\n")

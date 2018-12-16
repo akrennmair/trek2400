@@ -55,7 +55,7 @@ func srscan(f int) {
 					s = color.YellowString("%c ", c)
 				case ENEMY:
 					s = color.RedString("%c ", c)
-				case ENTERPRISE, QUEENE:
+				case MAINSHIP, QUEENE:
 					s = color.HiWhiteString("%c ", c)
 				default:
 					s = fmt.Sprintf("%c ", sect[i][j])
@@ -95,7 +95,7 @@ func srscan(f int) {
 				percent = 100 * ship.shield / param.shield
 				fmt.Printf("shields       %s, %d%%", s, percent)
 			case 7:
-				fmt.Printf("%ss left %d", names.enemy, now.enemies)
+				fmt.Printf("%ss left %d", period.enemy, now.enemies)
 			case 8:
 				fmt.Printf("time left     %.2f", now.time)
 			case 9:
@@ -112,7 +112,7 @@ func srscan(f int) {
 	if f < 0 {
 		fmt.Printf("current crew  %d\n", ship.crew)
 		fmt.Printf("brig space    %d\n", ship.brigfree)
-		fmt.Printf("%s power %d\n", names.enemy, param.enemyPower)
+		fmt.Printf("%s power %d\n", period.enemy, param.enemyPower)
 		l := game.length - 1
 		if game.length > 2 {
 			l--
