@@ -118,7 +118,7 @@ func torped(v int) {
 					}
 					etc.klingon[k].power -= 500 + ranf(501)
 					if etc.klingon[k].power > 0 {
-						fmt.Printf("*** Hit on Klingon at %d,%d: extensive damages\n", ix, iy)
+						fmt.Printf("*** Hit on %s at %d,%d: extensive damages\n", names.enemy, ix, iy)
 						break
 					}
 					killk(ix, iy)

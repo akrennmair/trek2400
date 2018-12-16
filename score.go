@@ -15,7 +15,7 @@ func score() int {
 	s = param.klingpwr / 4 * u
 	t = s
 	if t != 0 {
-		fmt.Printf("%d Klingons killed\t\t\t%6d\n", u, t)
+		fmt.Printf("%d %ss killed\t\t\t%6d\n", u, names.enemy, t)
 	}
 	r = now.date - param.date
 	if r < 1.0 {
@@ -25,14 +25,14 @@ func score() int {
 	t = int(400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Kill rate %.2f Klingons/stardate  \t%6d\n", r, t)
+		fmt.Printf("Kill rate %.2f %ss/stardate  \t%6d\n", names.enemy, r, t)
 	}
 	r = float64(now.klings)
 	r /= float64(game.killk + 1)
 	t = int(-400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Penalty for %d klingons remaining\t%6d\n", now.klings, t)
+		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", names.enemy, now.klings, t)
 	}
 	if move.endgame > 0 {
 		u = game.skill
@@ -76,7 +76,7 @@ func score() int {
 	t = 3 * u
 	s += t
 	if t != 0 {
-		fmt.Printf("%d Klingons captured\t\t\t%6d\n", u, t)
+		fmt.Printf("%d %ss captured\t\t\t%6d\n", u, names.enemy, t)
 	}
 	u = game.deaths
 	t = -u

@@ -103,11 +103,11 @@ func computer(v int) {
 				break
 			}
 			if etc.nkling <= 0 {
-				fmt.Printf("No Klingons in this quadrant\n")
+				fmt.Printf("No %ss in this quadrant\n", names.enemy)
 			}
 			/* for each Klingon, give the course & distance */
 			for i := 0; i < etc.nkling; i++ {
-				fmt.Printf("Klingon at %d,%d", etc.klingon[i].x, etc.klingon[i].y)
+				fmt.Printf("%s at %d,%d", names.enemy, etc.klingon[i].x, etc.klingon[i].y)
 				course, dist = kalc(ship.quadx, ship.quady, etc.klingon[i].x, etc.klingon[i].y)
 				prkalc(course, dist)
 			}
@@ -191,7 +191,7 @@ func computer(v int) {
 				}
 				switch e.evcode & E_EVENT {
 				case E_KDESB:
-					fmt.Printf("Klingon is attacking starbase in quadrant %d,%d\n", e.x, e.y)
+					fmt.Printf("%s is attacking starbase in quadrant %d,%d\n", names.enemy, e.x, e.y)
 					j = 0
 				case E_ENSLV, E_REPRO:
 					fmt.Printf("Starsystem %s in quadrant %d,%d is distressed\n", systemnameList[e.systemname], e.x, e.y)

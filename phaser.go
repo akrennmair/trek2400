@@ -52,12 +52,12 @@ func phaser(v int) {
 	}
 
 	if ship.shldup {
-		fmt.Printf("Sulu: Captain, we cannot fire through shields.\n")
+		fmt.Printf("%s: Captain, we cannot fire through shields.\n", names.helmsman)
 		return
 	}
 
 	if ship.cloaked {
-		fmt.Printf("Sulu: Captain, surely you must realize that we cannot fire\n")
+		fmt.Printf("%s: Captain, surely you must realize that we cannot fire\n", names.helmsman)
 		fmt.Printf("  phasers with the cloaking device up.\n")
 		return
 	}
@@ -125,7 +125,7 @@ func phaser(v int) {
 	} else {
 		/* automatic distribution of power */
 		if etc.nkling <= 0 {
-			fmt.Printf("Sulu: But there are no Klingons in this quadrant\n")
+			fmt.Printf("%s: But there are no %ss in this quadrant\n", names.helmsman, names.enemy)
 			return
 		}
 		fmt.Printf("Phasers locked on target.  ")
@@ -239,7 +239,7 @@ func phaser(v int) {
 			}
 			hit = int(anglefactor*distfactor + 0.5)
 			k.power -= hit
-			fmt.Printf("%d unit hit on Klingon", hit)
+			fmt.Printf("%d unit hit on %s", hit, names.enemy)
 			if !damaged(SRSCAN) {
 				fmt.Printf(" at %d,%d", k.x, k.y)
 			}

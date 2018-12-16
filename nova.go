@@ -9,14 +9,14 @@ func nova(x, y int) {
 		return
 	}
 	if ranf(100) < 15 {
-		fmt.Printf("Spock: Star at %d,%d failed to nova.\n", x, y)
+		fmt.Printf("%s: Star at %d,%d failed to nova.\n", names.firstOfficer, x, y)
 		return
 	}
 	if ranf(100) < 5 {
 		snova(x, y)
 		return
 	}
-	fmt.Printf("Spock: Star at %d,%d gone nova\n", x, y)
+	fmt.Printf("%s: Star at %d,%d gone nova\n", names.firstOfficer, x, y)
 	if ranf(4) != 0 {
 		sect[x][y] = EMPTY
 	} else {

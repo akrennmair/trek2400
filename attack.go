@@ -48,7 +48,7 @@ func attack(resting bool) {
 			continue
 		}
 		if hitflag == 0 {
-			fmt.Printf("\nStardate %.2f: Klingon attack:\n", now.date)
+			fmt.Printf("\nStardate %.2f: %s attack:\n", now.date, names.enemy)
 			hitflag++
 		}
 
@@ -100,7 +100,7 @@ func attack(resting bool) {
 			damage(l, extradm)
 			if damaged(SHIELD) {
 				if ship.shldup {
-					fmt.Printf("Sulu: Shields knocked down, captain.\n")
+					fmt.Printf("%s: Shields knocked down, captain.\n", names.helmsman)
 				}
 				ship.shldup = false
 				move.shldchg = false
@@ -114,7 +114,7 @@ func attack(resting bool) {
 	if maxhit >= 200 || tothit >= 500 {
 		cas = int(float64(tothit) * 0.015 * franf())
 		if cas >= 2 {
-			fmt.Printf("McCoy: we suffered %d casualties in that attack.\n", int(cas))
+			fmt.Printf("%s: we suffered %d casualties in that attack.\n", names.doctor, int(cas))
 			game.deaths += int(cas)
 			ship.crew -= int(cas)
 		}

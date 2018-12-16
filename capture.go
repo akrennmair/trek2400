@@ -22,7 +22,7 @@ func capture(v int) {
 
 	/* find out if there are any at all */
 	if etc.nkling <= 0 {
-		fmt.Printf("Uhura: Getting no response, sir\n")
+		fmt.Printf("%s: Getting no response, sir\n", names.comms)
 		return
 	}
 
@@ -40,10 +40,10 @@ func capture(v int) {
 	i = int(x)
 	if i > ranf(100) {
 		/* guess what, he surrendered!!! */
-		fmt.Printf("Klingon at %d,%d surrenders\n", k.x, k.y)
+		fmt.Printf("%s at %d,%d surrenders\n", names.enemy, k.x, k.y)
 		i = ranf(param.klingcrew)
 		if i > 0 {
-			fmt.Printf("%d klingons commit suicide rather than be taken captive\n", param.klingcrew-i)
+			fmt.Printf("%d %ss commit suicide rather than be taken captive\n", names.enemy, param.klingcrew-i)
 		}
 		if i > ship.brigfree {
 			i = ship.brigfree

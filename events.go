@@ -174,7 +174,7 @@ func events(timeWarp bool) {
 
 			/* report it if we can */
 			if !damaged(SSRADIO) {
-				fmt.Printf("\nUhura:  Captain, we have received a distress signal\n")
+				fmt.Printf("\n%s:  Captain, we have received a distress signal\n", names.comms)
 				fmt.Printf("  from the starbase in quadrant %d,%d.\n", ix, iy)
 				restcancel++
 			} else {
@@ -193,7 +193,7 @@ func events(timeWarp bool) {
 			}
 			if e.x == ship.quadx && e.y == ship.quady {
 				/* yep, kill one in this quadrant */
-				fmt.Printf("\nSpock: ")
+				fmt.Printf("\n%s: ", names.firstOfficer)
 				killb(ship.quadx, ship.quady)
 			} else {
 				/* kill one in some other quadrant */
@@ -236,8 +236,8 @@ func events(timeWarp bool) {
 
 			/* tell the captain about it if we can */
 			if !damaged(SSRADIO) {
-				fmt.Printf("\nUhura: Captain, starsystem %s in quadrant %d,%d is under attack\n",
-					systemnameList[e.systemname], ix, iy)
+				fmt.Printf("\n%s: Captain, starsystem %s in quadrant %d,%d is under attack\n",
+					names.comms, systemnameList[e.systemname], ix, iy)
 				restcancel++
 			} else {
 				/* if we can't tell him, make it invisible */
@@ -260,8 +260,8 @@ func events(timeWarp bool) {
 
 			/* report the disaster if we can */
 			if !damaged(SSRADIO) {
-				fmt.Printf("\nUhura:  We've lost contact with starsystem %s\n",
-					systemnameList[e.systemname])
+				fmt.Printf("\n%s:  We've lost contact with starsystem %s\n",
+					names.comms, systemnameList[e.systemname])
 				fmt.Printf("  in quadrant %d,%d.\n", e.x, e.y)
 			} else {
 				e.evcode |= E_HIDDEN
@@ -349,7 +349,7 @@ func events(timeWarp bool) {
 			unschedule(e)
 
 			/* de-damage the device */
-			fmt.Printf("%s reports repair work on the %s finished.\n", devices[i].person, devices[i].name)
+			fmt.Printf("%s reports repair work on the %s finished.\n", *devices[i].person, devices[i].name)
 
 			/* handle special processing upon fix */
 			switch i {
@@ -368,7 +368,7 @@ func events(timeWarp bool) {
 			}
 		} /* switch */
 
-		if restcancel > 0 && move.resting && getynpar("Spock: Shall we cancel our rest period") {
+		if restcancel > 0 && move.resting && getynpar(fmt.Sprintf("%s: Shall we cancel our rest period", names.firstOfficer)) {
 			move.time = xdate - idate
 		}
 	}

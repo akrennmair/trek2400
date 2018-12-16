@@ -36,6 +36,8 @@ func setup() {
 		sum    float64
 	)
 
+	names = tosNames
+
 	for {
 		r = getcodpar("What length game", lentab)
 		game.length = r.intValue
@@ -269,7 +271,7 @@ func setup() {
 	}
 
 	/* initialize this quadrant */
-	fmt.Printf("%d Klingons\n%d starbase", param.klings, param.bases)
+	fmt.Printf("%d %ss\n%d starbase", param.klings, names.enemy, param.bases)
 	if param.bases > 1 {
 		fmt.Printf("s")
 	}
@@ -277,7 +279,7 @@ func setup() {
 	for i := 1; i < param.bases; i++ {
 		fmt.Printf(", %d,%d", now.base[i].x, now.base[i].y)
 	}
-	fmt.Printf("\nIt takes %d units to kill a Klingon\n", param.klingpwr)
+	fmt.Printf("\nIt takes %d units to kill a %s\n", param.klingpwr, names.enemy)
 	move.free = false
 	initquad(0)
 	srscan(1)

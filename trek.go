@@ -199,25 +199,25 @@ type Ship struct {
 var ship Ship
 
 type device struct {
-	name   string /* device name */
-	person string /* the person who fixes it */
+	name   string  /* device name */
+	person *string /* the person who fixes it */
 }
 
 var devices = []device{
-	{"warp drive", "Scotty"},
-	{"S.R. scanners", "Scotty"},
-	{"L.R. scanners", "Scotty"},
-	{"phasers", "Sulu"},
-	{"photon tubes", "Sulu"},
-	{"impulse engines", "Scotty"},
-	{"shield control", "Sulu"},
-	{"computer", "Spock"},
-	{"subspace radio", "Uhura"},
-	{"life support", "Scotty"},
-	{"navigation system", "Chekov"},
-	{"cloaking device", "Scotty"},
-	{"transporter", "Scotty"},
-	{"shuttlecraft", "Scotty"},
+	{"warp drive", &names.engineer},
+	{"S.R. scanners", &names.engineer},
+	{"L.R. scanners", &names.engineer},
+	{"phasers", &names.helmsman},
+	{"photon tubes", &names.helmsman},
+	{"impulse engines", &names.engineer},
+	{"shield control", &names.helmsman},
+	{"computer", &names.firstOfficer},
+	{"subspace radio", &names.comms},
+	{"life support", &names.engineer},
+	{"navigation system", &names.navigator},
+	{"cloaking device", &names.engineer},
+	{"transporter", &names.engineer},
+	{"shuttlecraft", &names.engineer},
 }
 
 type quadrant struct {
@@ -270,3 +270,32 @@ type kling struct {
 }
 
 var sect [NSECTS][NSECTS]byte
+
+type Names struct {
+	comms           string // Uhura
+	helmsman        string // Sulu
+	doctor          string // McCoy
+	navigator       string // Chekov
+	firstOfficer    string // Spock
+	engineer        string // Scotty
+	captain         string // Kirk
+	captainNickName string // Jim
+	yeoman          string // Yeoman Rand
+
+	enemy string // Klingon
+}
+
+var names Names
+
+var tosNames = Names{
+	comms:           "Uhura",
+	helmsman:        "Sulu",
+	doctor:          "McCoy",
+	navigator:       "Chekov",
+	firstOfficer:    "Spock",
+	engineer:        "Scotty",
+	captain:         "Kirk",
+	captainNickName: "Jim",
+	yeoman:          "Yeoman Rand",
+	enemy:           "Klingon",
+}

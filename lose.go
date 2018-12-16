@@ -17,7 +17,7 @@ var losemsg = map[int]string{
 	L_TOOFAST:  "\n\032\014 ***\007 Ship's hull has imploded\007 ***",
 	L_STAR:     "You have burned up in a star",
 	L_DSTRCT:   "Well, you destroyed yourself, but it didn't do any good",
-	L_CAPTURED: "You have been captured by Klingons and mercilessly tortured",
+	L_CAPTURED: "You have been captured and mercilessly tortured", // TODO: it was "captured by Klingons", maybe make this message enemy-specific?
 	L_NOCREW:   "Your last crew member died",
 }
 

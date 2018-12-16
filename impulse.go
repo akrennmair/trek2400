@@ -11,7 +11,7 @@ func impulse(v int) {
 	)
 
 	if ship.cond == DOCKED {
-		fmt.Printf("Scotty: Sorry captain, but we are still docked.\n")
+		fmt.Printf("%s: Sorry captain, but we are still docked.\n", names.engineer)
 		return
 	}
 
@@ -27,7 +27,7 @@ func impulse(v int) {
 	power = int(20 + 100*dist)
 	percent = int(float64(100*power/ship.energy) + 0.5)
 	if percent >= 85 {
-		fmt.Printf("Scotty: That would consume %d%% of our remaining energy.\n", percent)
+		fmt.Printf("%s: That would consume %d%% of our remaining energy.\n", names.engineer, percent)
 		if !getynpar("Are you sure that is wise") {
 			return
 		}
@@ -36,7 +36,7 @@ func impulse(v int) {
 	p_time = dist / 0.095
 	percent = int(100*p_time/now.time + 0.5)
 	if percent >= 85 {
-		fmt.Printf("Spock: That would take %d%% of our remaining time.\n", percent)
+		fmt.Printf("%s: That would take %d%% of our remaining time.\n", names.firstOfficer, percent)
 		if !getynpar("Are you sure that is wise") {
 			return
 		}

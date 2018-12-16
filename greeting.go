@@ -6,7 +6,7 @@ import (
 )
 
 func printEnemyGreeting() {
-	fmt.Printf("\nUhura: incoming message from the Klingon ship, sir!\n\n")
+	fmt.Printf("\n%s: incoming message from the %s ship, sir!\n\n", names.enemy, names.comms)
 	fmt.Printf("   \"%s!\"\n\n", randomKlingonProverb())
 
 	fmt.Printf("          ____\n")

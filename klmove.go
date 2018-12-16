@@ -79,8 +79,8 @@ func klmove(fl bool) {
 				}
 
 				if !damaged(SRSCAN) {
-					fmt.Printf("Klingon at %d,%d escapes to quadrant %d,%d\n",
-						k.x, k.y, qx, qy)
+					fmt.Printf("%s at %d,%d escapes to quadrant %d,%d\n",
+						names.enemy, k.x, k.y, qx, qy)
 					motion = quad[qx][qy].scanned
 					if motion >= 0 && motion < 1000 {
 						quad[qx][qy].scanned += 100
@@ -117,7 +117,7 @@ func klmove(fl bool) {
 		}
 		if k != nil && (k.x != nextx || k.y != nexty) {
 			if !damaged(SRSCAN) {
-				fmt.Printf("Klingon at %d,%d moves to %d,%d\n", k.x, k.y, nextx, nexty)
+				fmt.Printf("%s at %d,%d moves to %d,%d\n", names.enemy, k.x, k.y, nextx, nexty)
 			}
 			sect[k.x][k.y] = EMPTY
 			k.x, k.y = nextx, nexty

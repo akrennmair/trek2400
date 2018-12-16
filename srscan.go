@@ -95,7 +95,7 @@ func srscan(f int) {
 				percent = 100 * ship.shield / param.shield
 				fmt.Printf("shields       %s, %d%%", s, percent)
 			case 7:
-				fmt.Printf("Klingons left %d", now.klings)
+				fmt.Printf("%ss left %d", names.enemy, now.klings)
 			case 8:
 				fmt.Printf("time left     %.2f", now.time)
 			case 9:
@@ -112,7 +112,7 @@ func srscan(f int) {
 	if f < 0 {
 		fmt.Printf("current crew  %d\n", ship.crew)
 		fmt.Printf("brig space    %d\n", ship.brigfree)
-		fmt.Printf("Klingon power %d\n", param.klingpwr)
+		fmt.Printf("%s power %d\n", names.enemy, param.klingpwr)
 		l := game.length - 1
 		if game.length > 2 {
 			l--
