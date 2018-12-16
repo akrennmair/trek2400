@@ -24,13 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("\n   * * *   S T A R   T R E K   * * *\n\n")
-	fmt.Printf("        __________________           __\n")
-	fmt.Printf("        \\_________________|)____.---'--`---.____\n")
-	fmt.Printf("                      ||    \\----.________.----'\n")
-	fmt.Printf("                      ||     / /    `--'\n")
-	fmt.Printf("                    __||____/ /_\n")
-	fmt.Printf("                   |___ --====> \\\n")
-	fmt.Printf("                       `--------'\n")
 	fmt.Printf("\nPress return to continue.\n")
 
 	for {

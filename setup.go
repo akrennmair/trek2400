@@ -80,6 +80,8 @@ func setup() {
 		rand.Seed(int64(d))
 	}
 
+	printShip()
+
 	now.bases = ranf(6-game.skill) + 2
 	param.bases = now.bases
 
