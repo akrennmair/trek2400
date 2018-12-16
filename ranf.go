@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math"
 	"math/rand"
 )
 
@@ -14,5 +13,5 @@ func ranf(max int) int {
 }
 
 func franf() float64 {
-	return math.Abs(rand.NormFloat64())
+	return rand.Float64()
 }

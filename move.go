@@ -68,6 +68,8 @@ func domove(ramflag int, course int, p_time float64, speed float64) float64 {
 		ix = int(x)
 		iy = int(y)
 
+		tracef("ix = %d, x = %.2f, iy = %d, y = %.2f", ix, x, iy, y)
+
 		if x < 0.0 || y < 0.0 || x >= sectsize || y >= sectsize {
 			/* enter new quadrant */
 			dx = float64(ship.quadx)*NSECTS + float64(ship.sectx) + dx*xn
@@ -83,6 +85,8 @@ func domove(ramflag int, course int, p_time float64, speed float64) float64 {
 			} else {
 				iy = int(dy + 0.5)
 			}
+
+			tracef("New quad: ix = %d, iy = %d", ix, iy)
 
 			ship.sectx = int(x)
 			ship.secty = int(y)
