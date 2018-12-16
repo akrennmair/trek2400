@@ -25,14 +25,14 @@ func score() int {
 	t = int(400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Kill rate %.2f %ss/stardate  \t%6d\n", period.enemy, r, t)
+		fmt.Printf("Kill rate %.2f %ss/stardate  \t%6d\n", r, period.enemy, t)
 	}
 	r = float64(now.enemies)
 	r /= float64(game.enemiesKilled + 1)
 	t = int(-400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", period.enemy, now.enemies, t)
+		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", now.enemies, period.enemy, t)
 	}
 	if move.endgame > 0 {
 		u = game.skill

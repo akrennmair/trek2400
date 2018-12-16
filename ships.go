@@ -31,3 +31,22 @@ func printEnterpriseD() {
 	fmt.Printf("      '--------_- - - - - _/\n")
 	fmt.Printf("                `--------'\n")
 }
+
+func enemyShipIcon(c byte) byte {
+	switch game.period {
+	case TOS:
+		return KLINGON
+	case TNG:
+		return ROMULAN
+	default:
+		return c
+	}
+}
+
+func shipID() string {
+	if ship.ship == QUEENE {
+		return "NCC-1590" // 1590 is the year Faerie Queene was first published.
+	}
+
+	return period.shipid
+}

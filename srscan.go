@@ -39,7 +39,9 @@ func srscan(f int) {
 		for i := 0; i < NSECTS; i++ {
 			fmt.Printf("%d ", i)
 		}
-		fmt.Printf("\n")
+		fmt.Printf("     your ship     %s\n", shipID())
+	} else {
+		fmt.Printf("your ship     %s\n", shipID())
 	}
 
 	for i := 0; i < NSECTS; i++ {
@@ -54,7 +56,7 @@ func srscan(f int) {
 				case STAR:
 					s = color.YellowString("%c ", c)
 				case ENEMY:
-					s = color.RedString("%c ", c)
+					s = color.RedString("%c ", enemyShipIcon(c))
 				case MAINSHIP, QUEENE:
 					s = color.HiWhiteString("%c ", c)
 				default:

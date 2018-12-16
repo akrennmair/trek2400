@@ -70,9 +70,12 @@ const (
 	BASE     = '#'
 	MAINSHIP = 'E'
 	QUEENE   = 'Q'
-	ENEMY    = 'K'
+	ENEMY    = 'X'
 	INHABIT  = '@'
 	HOLE     = ' '
+
+	KLINGON = 'K'
+	ROMULAN = 'R'
 
 	/* you lose codes */
 	L_NOTIME   = 1  /* ran out of time */
@@ -289,6 +292,7 @@ type Period struct {
 
 	enemy    string
 	shipname string
+	shipid   string
 
 	energy         int
 	torped         int
@@ -314,6 +318,7 @@ var tosPeriod = Period{
 	yeoman:          "Yeoman Rand",
 	enemy:           "Klingon",
 	shipname:        "Enterprise",
+	shipid:          "NCC-1701",
 	energy:          5000,
 	torped:          10,
 	shield:          1500,
@@ -336,6 +341,7 @@ var tngPeriod = Period{
 	yeoman:          "Wesley Crusher",
 	enemy:           "Romulan",
 	shipname:        "Enterprise-D",
+	shipid:          "NCC-1701-D",
 	energy:          5000,
 	torped:          10,
 	shield:          1500,
