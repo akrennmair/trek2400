@@ -27,7 +27,7 @@ type banks struct {
 func phaser(v int) {
 	var (
 		i, j                    int
-		k                       *kling
+		k                       *enemy
 		dx, dy                  float64
 		anglefactor, distfactor float64
 		b                       *banks
@@ -124,7 +124,7 @@ func phaser(v int) {
 		extra = 0
 	} else {
 		/* automatic distribution of power */
-		if etc.nkling <= 0 {
+		if etc.enemyCount <= 0 {
 			fmt.Printf("%s: But there are no %ss in this quadrant\n", names.helmsman, names.enemy)
 			return
 		}
@@ -143,13 +143,13 @@ func phaser(v int) {
 			flag = 0
 			ship.energy -= hit
 			extra = hit
-			n = etc.nkling
+			n = etc.enemyCount
 			if n > NBANKS {
 				n = NBANKS
 			}
 			tot = float64(n * (n + 1) / 2)
 			for i = 0; i < n; i++ {
-				k = &etc.klingon[i]
+				k = &etc.enemyList[i]
 				b = &bank[i]
 				distfactor = k.dist
 				anglefactor = ALPHA * BETA * OMEGA / (distfactor*distfactor + EPSILON)
@@ -212,14 +212,14 @@ func phaser(v int) {
 			continue
 		}
 		fmt.Printf("\nPhaser bank %d fires:\n", i)
-		n = etc.nkling
+		n = etc.enemyCount
 		kidx := 0
 		for j = 0; j < n; j++ {
 			if b.units <= 0 {
 				break
 			}
 
-			k = &etc.klingon[kidx]
+			k = &etc.enemyList[kidx]
 
 			// TODO: copy documentation
 			distfactor = BETA + franf()
@@ -246,7 +246,7 @@ func phaser(v int) {
 			fmt.Printf("\n")
 			b.units -= hit
 			if k.power <= 0 {
-				killk(k.x, k.y)
+				killEnemy(k.x, k.y)
 				continue
 			}
 			kidx++

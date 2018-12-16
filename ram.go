@@ -9,9 +9,9 @@ func ram(ix, iy int) {
 	fmt.Printf("\007RED ALERT\007: collision imminent\n")
 	c := sect[ix][iy]
 	switch c {
-	case KLINGON:
+	case ENEMY:
 		fmt.Printf("%s rams %s at %d,%d\n", ship.shipname, names.enemy, ix, iy)
-		killk(ix, iy)
+		killEnemy(ix, iy)
 
 	case STAR, INHABIT:
 		fmt.Printf("%s: Captain, isn't it getting hot in here?\n", names.yeoman)

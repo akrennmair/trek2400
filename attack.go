@@ -19,7 +19,7 @@ func attack(resting bool) {
 		return
 	}
 
-	if etc.nkling <= 0 || quad[ship.quadx][ship.quady].stars < 0 {
+	if etc.enemyCount <= 0 || quad[ship.quadx][ship.quady].stars < 0 {
 		return
 	}
 
@@ -27,7 +27,7 @@ func attack(resting bool) {
 		return
 	}
 
-	klmove(false)
+	enemyMove(false)
 	if ship.cond == DOCKED {
 		if !resting {
 			fmt.Printf("Starbase shields protect the %s\n", ship.shipname)
@@ -43,8 +43,8 @@ func attack(resting bool) {
 	tothit = 0.0
 	hitflag = 0
 
-	for i = 0; i < etc.nkling; i++ {
-		if etc.klingon[i].power < 20 {
+	for i = 0; i < etc.enemyCount; i++ {
+		if etc.enemyList[i].power < 20 {
 			continue
 		}
 		if hitflag == 0 {
@@ -54,11 +54,11 @@ func attack(resting bool) {
 
 		/* complete the hit */
 		dustfac = 0.90 + 0.01*franf()
-		tothe = etc.klingon[i].avgdist
-		hit = int(float64(etc.klingon[i].power) * math.Pow(dustfac, tothe) * param.hitfac)
+		tothe = etc.enemyList[i].avgdist
+		hit = int(float64(etc.enemyList[i].power) * math.Pow(dustfac, tothe) * param.hitfac)
 		/* deplete his energy */
-		dustfac = float64(etc.klingon[i].power)
-		etc.klingon[i].power = int(dustfac * param.phasfac * (1.0 + (franf()-0.5)*0.2))
+		dustfac = float64(etc.enemyList[i].power)
+		etc.enemyList[i].power = int(dustfac * param.phasfac * (1.0 + (franf()-0.5)*0.2))
 		/* see how much of hit shields will absorb */
 		shldabsb = 0.0
 		if ship.shldup || move.shldchg {
@@ -72,7 +72,7 @@ func attack(resting bool) {
 		/* actually do the hit */
 		fmt.Printf("\aHIT: %d units", int(hit))
 		if !damaged(SRSCAN) {
-			fmt.Printf(" from %d,%d", etc.klingon[i].x, etc.klingon[i].y)
+			fmt.Printf(" from %d,%d", etc.enemyList[i].x, etc.enemyList[i].y)
 		}
 		cas = (shldabsb * 100) / hit
 		hit -= shldabsb
@@ -120,6 +120,6 @@ func attack(resting bool) {
 		}
 	}
 
-	/* allow Klingons to move after attacking */
-	klmove(true)
+	/* allow enemy to move after attacking */
+	enemyMove(true)
 }

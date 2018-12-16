@@ -11,23 +11,23 @@ func compkldist(f bool) {
 		temp   float64
 	)
 
-	if etc.nkling == 0 {
+	if etc.enemyCount == 0 {
 		return
 	}
 
-	for i := 0; i < etc.nkling; i++ {
-		/* compute distance to the Klingon */
-		dx = ship.sectx - etc.klingon[i].x
-		dy = ship.secty - etc.klingon[i].y
+	for i := 0; i < etc.enemyCount; i++ {
+		/* compute distance to the enemy */
+		dx = ship.sectx - etc.enemyList[i].x
+		dy = ship.secty - etc.enemyList[i].y
 		d = math.Sqrt(float64(dx*dx + dy*dy))
 
 		if !f {
-			temp = etc.klingon[i].dist
-			etc.klingon[i].avgdist = 0.5 * (temp + d)
+			temp = etc.enemyList[i].dist
+			etc.enemyList[i].avgdist = 0.5 * (temp + d)
 		} else {
-			etc.klingon[i].avgdist = d
+			etc.enemyList[i].avgdist = d
 		}
-		etc.klingon[i].dist = d
+		etc.enemyList[i].dist = d
 	}
 
 	sortkl()
@@ -35,20 +35,20 @@ func compkldist(f bool) {
 
 func sortkl() {
 	var (
-		t    kling
+		t    enemy
 		i, m int
 		f    bool
 	)
 
-	m = etc.nkling - 1
+	m = etc.enemyCount - 1
 	f = true
 	for f {
 		f = false
 		for i = 0; i < m; i++ {
-			if etc.klingon[i].dist > etc.klingon[i+1].dist {
-				t = etc.klingon[i]
-				etc.klingon[i] = etc.klingon[i+1]
-				etc.klingon[i+1] = t
+			if etc.enemyList[i].dist > etc.enemyList[i+1].dist {
+				t = etc.enemyList[i]
+				etc.enemyList[i] = etc.enemyList[i+1]
+				etc.enemyList[i+1] = t
 				f = true
 			}
 		}

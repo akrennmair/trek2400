@@ -24,7 +24,7 @@ func autover() {
 		dist = 1.4242
 	}
 	course = ranf(360)
-	etc.nkling = -1
+	etc.enemyCount = -1
 	ship.cond = RED
 	warp(-1, course, dist)
 	attack(false)

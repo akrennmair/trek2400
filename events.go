@@ -9,7 +9,7 @@ func events(timeWarp bool) {
 	var (
 		i          int
 		j          int
-		k          *kling
+		k          *enemy
 		rtime      float64
 		xdate      float64
 		idate      float64
@@ -21,9 +21,9 @@ func events(timeWarp bool) {
 		restcancel int
 	)
 
-	/* if nothing happened, just allow for any Klingons killed */
+	/* if nothing happened, just allow for any enemies killed */
 	if move.time <= 0.0 {
-		now.time = now.resource / float64(now.klings)
+		now.time = now.resource / float64(now.enemies)
 		return
 	}
 
@@ -63,9 +63,9 @@ func events(timeWarp bool) {
 		rtime = xdate - now.date
 
 		/* decrement the magic "Federation Resources" pseudo-variable */
-		now.resource -= float64(now.klings) * rtime
+		now.resource -= float64(now.enemies) * rtime
 		/* and recompute the time left */
-		now.time = now.resource / float64(now.klings)
+		now.time = now.resource / float64(now.enemies)
 
 		/* move us up to the next date */
 		now.date = xdate
@@ -90,17 +90,17 @@ func events(timeWarp bool) {
 
 		case E_LRTB: /* long range tractor beam */
 			/* schedule the next one */
-			xresched(e, E_LRTB, now.klings)
+			xresched(e, E_LRTB, now.enemies)
 			/* LRTB cannot occur if we are docked */
 			if ship.cond != DOCKED {
 				/* pick a new quadrant */
-				i = ranf(now.klings) + 1
+				i = ranf(now.enemies) + 1
 				var ix, iy int
 				for ix = 0; i < NQUADS; ix++ {
 					for iy = 0; iy < NQUADS; iy++ {
 						q = &quad[ix][iy]
 						if q.stars >= 0 {
-							i -= q.klings
+							i -= q.enemies
 							if i <= 0 {
 								break
 							}
@@ -128,7 +128,7 @@ func events(timeWarp bool) {
 				move.time = xdate - idate
 			}
 
-		case E_KATSB: /* Klingon attacks starbase */
+		case E_KATSB: /* enemy attacks starbase */
 			/* if out of bases, forget it */
 			if now.bases <= 0 {
 				unschedule(e)
@@ -138,9 +138,9 @@ func events(timeWarp bool) {
 			for ; i < now.bases; i++ {
 				ix = now.base[i].x
 				iy = now.base[i].y
-				/* see if a Klingon exists in this quadrant */
+				/* see if an enemy exists in this quadrant */
 				q = &quad[ix][iy]
-				if q.klings <= 0 {
+				if q.enemies <= 0 {
 					continue
 				}
 
@@ -164,7 +164,7 @@ func events(timeWarp bool) {
 			}
 			e = ev
 			if i >= now.bases {
-				/* not now; wait a while and see if some Klingons move in */
+				/* not now; wait a while and see if some enemies move in */
 				reschedule(e, 0.5+3.0*franf())
 				break
 			}
@@ -183,12 +183,12 @@ func events(timeWarp bool) {
 				e.evcode |= E_HIDDEN
 			}
 
-		case E_KDESB: /* Klingon destroys starbase */
+		case E_KDESB: /* enemy destroys starbase */
 			unschedule(e)
 			q = &quad[e.x][e.y]
-			/* if the base has mysteriously gone away, or if the Klingon
+			/* if the base has mysteriously gone away, or if the enemy
 			   got tired and went home, ignore this event */
-			if q.bases <= 0 || q.klings <= 0 {
+			if q.bases <= 0 || q.enemies <= 0 {
 				break
 			}
 			if e.x == ship.quadx && e.y == ship.quady {
@@ -217,8 +217,8 @@ func events(timeWarp bool) {
 				/* need a quadrant which is not the current one,
 				   which has some stars which are inhabited and
 				   not already under attack, which is not
-				   supernova'ed, and which has some Klingons in it */
-				if !((ix == ship.quadx && iy == ship.quady) || q.stars < 0 || (q.qsystemname&Q_DISTRESSED) != 0 || (q.qsystemname&Q_SYSTEM) == 0 || q.klings < 0) {
+				   supernova'ed, and which has some enemies in it */
+				if !((ix == ship.quadx && iy == ship.quady) || q.stars < 0 || (q.qsystemname&Q_DISTRESSED) != 0 || (q.qsystemname&Q_SYSTEM) == 0 || q.enemies < 0) {
 					break
 				}
 			}
@@ -248,8 +248,8 @@ func events(timeWarp bool) {
 			unschedule(e)
 			/* see if current distress call still active */
 			q = &quad[e.x][e.y]
-			if q.klings <= 0 {
-				/* no Klingons, clean up */
+			if q.enemies <= 0 {
+				/* no enemies, clean up */
 				/* restore the system name */
 				q.qsystemname = e.systemname
 				break
@@ -267,21 +267,21 @@ func events(timeWarp bool) {
 				e.evcode |= E_HIDDEN
 			}
 
-		case E_REPRO: /* Klingon reproduces */
+		case E_REPRO: /* enemy reproduces */
 			q = &quad[e.x][e.y]
-			if q.klings >= 0 {
+			if q.enemies >= 0 {
 				unschedule(e)
 				q.qsystemname = e.systemname
 				break
 			}
 			xresched(e, E_REPRO, 1)
-			/* reproduce one Klingon */
+			/* reproduce one enemy */
 			ix = e.x
 			iy = e.y
-			if now.klings == 127 {
+			if now.enemies == 127 {
 				break /* full right now */
 			}
-			if q.klings >= MAXKLQUAD {
+			if q.enemies >= MAXKLQUAD {
 				var i, j int
 				/* this quadrant not ok, pick an adjacent one */
 				for i = ix - 1; i <= ix+1; i++ {
@@ -295,7 +295,7 @@ func events(timeWarp bool) {
 						}
 						q = &quad[i][j]
 						/* check for this quad ok (not full & no snova) */
-						if q.klings >= MAXKLQUAD || q.stars < 0 {
+						if q.enemies >= MAXKLQUAD || q.stars < 0 {
 							continue
 						}
 						break
@@ -312,22 +312,22 @@ func events(timeWarp bool) {
 				iy = j
 			}
 			/* deliver the child */
-			q.klings++
-			now.klings++
+			q.enemies++
+			now.enemies++
 			if ix == ship.quadx && iy == ship.quady {
 				ix, iy = sector()
-				sect[ix][iy] = KLINGON
-				k = &etc.klingon[etc.nkling]
-				etc.nkling++
+				sect[ix][iy] = ENEMY
+				k = &etc.enemyList[etc.enemyCount]
+				etc.enemyCount++
 				k.x = ix
 				k.y = iy
-				k.power = param.klingpwr
+				k.power = param.enemyPower
 				k.srndreq = false
-				compkldist(etc.klingon[0].dist == etc.klingon[0].avgdist)
+				compkldist(etc.enemyList[0].dist == etc.enemyList[0].avgdist)
 			}
 
 			/* recompute time left */
-			now.time = now.resource / float64(now.klings)
+			now.time = now.resource / float64(now.enemies)
 
 		case E_SNAP: /* take a snapshot of the galaxy */
 			xresched(e, E_SNAP, 1)
@@ -336,7 +336,7 @@ func events(timeWarp bool) {
 			etc.snapshot.now = now
 			game.snap = true
 
-		case E_ATTACK: /* Klingons attack during rest period */
+		case E_ATTACK: /* enemies attack during rest period */
 			if !move.resting {
 				unschedule(e)
 				break

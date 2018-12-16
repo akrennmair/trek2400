@@ -77,16 +77,16 @@ func setup() {
 	i := game.skill
 	j := game.length
 
-	now.klings = int(float64(i*j) * 3.5 * (franf() + 0.75))
-	param.klings = now.klings
+	now.enemies = int(float64(i*j) * 3.5 * (franf() + 0.75))
+	param.enemies = now.enemies
 
-	if param.klings < i*j*5 {
-		now.klings = i * j * 5
-		param.klings = now.klings
+	if param.enemies < i*j*5 {
+		now.enemies = i * j * 5
+		param.enemies = now.enemies
 	}
-	if param.klings <= i { // numerical overflow problem?! research
-		now.klings = 127
-		param.klings = now.klings
+	if param.enemies <= i { // numerical overflow problem?! research
+		now.enemies = 127
+		param.enemies = now.enemies
 	}
 
 	param.energy, ship.energy = 5000, 5000
@@ -95,7 +95,7 @@ func setup() {
 	ship.shipname = "Enterprise"
 	param.shield, ship.shield = 1500, 1500
 
-	param.resource = float64(param.klings) * param.time
+	param.resource = float64(param.enemies) * param.time
 	now.resource = param.resource
 
 	param.crew, ship.crew = 387, 387
@@ -151,13 +151,13 @@ func setup() {
 	param.stopengy = 50
 	param.shupengy = 40
 	i = game.skill
-	param.klingpwr = 100 + 150*i
+	param.enemyPower = 100 + 150*i
 	if i >= 6 {
-		param.klingpwr += 150
+		param.enemyPower += 150
 	}
 	param.phasfac = 0.8
 	param.hitfac = 0.5
-	param.klingcrew = 200
+	param.enemyCrew = 200
 	param.srndrprob = 0.0035
 	param.moveprob = map[int]float64{
 		KM_OB: 45,
@@ -195,7 +195,7 @@ func setup() {
 	}
 
 	xsched(E_SNOVA, 1, 0, 0, 0)
-	xsched(E_LRTB, param.klings, 0, 0, 0)
+	xsched(E_LRTB, param.enemies, 0, 0, 0)
 	xsched(E_KATSB, 1, 0, 0, 0)
 	xsched(E_ISSUE, 1, 0, 0, 0)
 	xsched(E_SNAP, 1, 0, 0, 0)
@@ -206,7 +206,7 @@ func setup() {
 	for i := 0; i < NQUADS; i++ {
 		for j := 0; j < NQUADS; j++ {
 			q = &quad[i][j]
-			q.klings = 0
+			q.enemies = 0
 			q.bases = 0
 			q.scanned = -1
 			q.stars = ranf(9) + 1
@@ -252,7 +252,7 @@ func setup() {
 	}
 
 	/* position klingons */
-	for i := param.klings; i > 0; {
+	for i := param.enemies; i > 0; {
 		klump = ranf(4) + 1
 		if klump > i {
 			klump = i
@@ -261,17 +261,17 @@ func setup() {
 			ix = ranf(NQUADS)
 			iy = ranf(NQUADS)
 			q = &quad[ix][iy]
-			if q.klings+klump > MAXKLQUAD {
+			if q.enemies+klump > MAXKLQUAD {
 				continue
 			}
-			q.klings += klump
+			q.enemies += klump
 			i -= klump
 			break
 		}
 	}
 
 	/* initialize this quadrant */
-	fmt.Printf("%d %ss\n%d starbase", param.klings, names.enemy, param.bases)
+	fmt.Printf("%d %ss\n%d starbase", param.enemies, names.enemy, param.bases)
 	if param.bases > 1 {
 		fmt.Printf("s")
 	}
@@ -279,7 +279,7 @@ func setup() {
 	for i := 1; i < param.bases; i++ {
 		fmt.Printf(", %d,%d", now.base[i].x, now.base[i].y)
 	}
-	fmt.Printf("\nIt takes %d units to kill a %s\n", param.klingpwr, names.enemy)
+	fmt.Printf("\nIt takes %d units to kill a %s\n", param.enemyPower, names.enemy)
 	move.free = false
 	initquad(0)
 	srscan(1)

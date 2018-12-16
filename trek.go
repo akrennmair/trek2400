@@ -17,7 +17,7 @@ const (
 	Q_DISTRESSED = 0200
 	Q_SYSTEM     = 077
 
-	MAXKLQUAD = 9 /* maximum klingons per quadrant */
+	MAXKLQUAD = 9 /* maximum enemies per quadrant */
 
 	GREEN  = 0
 	DOCKED = 1
@@ -40,7 +40,7 @@ const (
 	XPORTER  = 12 /* transporter */
 	SHUTTLE  = 13 /* shuttlecraft */
 
-	/* Klingon move indicies */
+	/* Enemy move indicies */
 	KM_OB = 0 /* Old quadrant, Before attack */
 	KM_OA = 1 /* Old quadrant, After attack */
 	KM_EB = 2 /* Enter quadrant, Before attack */
@@ -50,13 +50,13 @@ const (
 
 	/***************************  EVENTS  ****************************/
 	E_LRTB   = 1  /* long range tractor beam */
-	E_KATSB  = 2  /* Klingon attacks starbase */
-	E_KDESB  = 3  /* Klingon destroys starbase */
+	E_KATSB  = 2  /* Enemy attacks starbase */
+	E_KDESB  = 3  /* Enemy destroys starbase */
 	E_ISSUE  = 4  /* distress call is issued */
-	E_ENSLV  = 5  /* Klingons enslave a quadrant */
-	E_REPRO  = 6  /* a Klingon is reproduced */
+	E_ENSLV  = 5  /* Enemy enslave a quadrant */
+	E_REPRO  = 6  /* an enemy is reproduced */
 	E_FIXDV  = 7  /* fix a device */
-	E_ATTACK = 8  /* Klingon attack during rest period */
+	E_ATTACK = 8  /* Enemy attack during rest period */
 	E_SNAP   = 9  /* take a snapshot for time warp */
 	E_SNOVA  = 10 /* supernova occurs */
 
@@ -70,14 +70,14 @@ const (
 	BASE       = '#'
 	ENTERPRISE = 'E'
 	QUEENE     = 'Q'
-	KLINGON    = 'K'
+	ENEMY      = 'K'
 	INHABIT    = '@'
 	HOLE       = ' '
 
 	/* you lose codes */
 	L_NOTIME   = 1  /* ran out of time */
 	L_NOENGY   = 2  /* ran out of energy */
-	L_DSTRYD   = 3  /* destroyed by a Klingon */
+	L_DSTRYD   = 3  /* destroyed by an enemy */
 	L_NEGENB   = 4  /* ran into the negative energy barrier */
 	L_SUICID   = 5  /* destroyed in a nova */
 	L_SNOVA    = 6  /* destroyed in a supernova */
@@ -86,34 +86,34 @@ const (
 	L_TOOFAST  = 9  /* pretty stupid going at warp 10 */
 	L_STAR     = 10 /* ran into a star */
 	L_DSTRCT   = 11 /* self destructed */
-	L_CAPTURED = 12 /* captured by Klingons */
+	L_CAPTURED = 12 /* captured by enemy */
 	L_NOCREW   = 13 /* you ran out of crew */
 
 	TOOLARGE = 1e50
 )
 
 type Game struct {
-	killk     int    /* number of klingons killed */
-	deaths    int    /* number of deaths onboard Enterprise */
-	negenbar  int    /* number of hits on negative energy barrier */
-	killb     int    /* number of starbases killed */
-	kills     int    /* number of stars killed */
-	skill     int    /* skill rating of player */
-	length    int    /* length of game */
-	killed    bool   /* set if you were killed */
-	killinhab int    /* number of inhabited starsystems killed */
-	tourn     bool   /* set if a tournament game */
-	passwd    string /* game password */
-	snap      bool   /* set if snapshot taken */
-	helps     int    /* number of help calls */
-	captives  int    /* total number of captives taken */
+	enemiesKilled int    /* number of enemies killed */
+	deaths        int    /* number of deaths onboard Enterprise */
+	negenbar      int    /* number of hits on negative energy barrier */
+	killb         int    /* number of starbases killed */
+	kills         int    /* number of stars killed */
+	skill         int    /* skill rating of player */
+	length        int    /* length of game */
+	killed        bool   /* set if you were killed */
+	killinhab     int    /* number of inhabited starsystems killed */
+	tourn         bool   /* set if a tournament game */
+	passwd        string /* game password */
+	snap          bool   /* set if snapshot taken */
+	helps         int    /* number of help calls */
+	captives      int    /* total number of captives taken */
 }
 
 var game Game
 
 type Param struct {
 	bases       int             /* number of starbases */
-	klings      int             /* number of klingons */
+	enemies     int             /* number of enemies */
 	date        float64         /* stardate */
 	time        float64         /* time left */
 	resource    float64         /* Federation resources */
@@ -128,17 +128,17 @@ type Param struct {
 	regenfac    float64         /* regeneration factor */
 	stopengy    int             /* energy to do emergency stop */
 	shupengy    int             /* energy to put up shields */
-	klingpwr    int             /* Klingon initial power */
+	enemyPower  int             /* enemy initial power */
 	warptime    int             /* time chewer multiplier */
-	phasfac     float64         /* Klingon phaser power eater factor */
-	moveprob    map[int]float64 /* probability that a Klingon moves */
-	movefac     map[int]float64 /* Klingon move distance multiplier */
+	phasfac     float64         /* enemy phaser power eater factor */
+	moveprob    map[int]float64 /* probability that an enemy moves */
+	movefac     map[int]float64 /* enemy move distance multiplier */
 	eventdly    map[int]float64 /* event time multipliers */
 	navigcrud   []float64       /* navigation crudup factor */
 	cloakenergy int             /* cloaking device energy per stardate */
 	damprob     map[int]float64 /* damage probability */
-	hitfac      float64         /* Klingon attack factor */
-	klingcrew   int             /* number of Klingons in a crew */
+	hitfac      float64         /* enemy attack factor */
+	enemyCrew   int             /* number of enemies in a crew */
 	srndrprob   float64         /* surrender probability */
 	energylow   int             /* low energy mark (cond YELLOW) */
 }
@@ -147,7 +147,7 @@ var param Param
 
 type Now struct {
 	bases      int             /* number of starbases */
-	klings     int             /* number of klingons */
+	enemies    int             /* number of enemies */
 	date       float64         /* stardate */
 	time       float64         /* time left */
 	resource   float64         /* Federation resources */
@@ -222,7 +222,7 @@ var devices = []device{
 
 type quadrant struct {
 	bases       int /* number of bases in this quadrant */
-	klings      int /* number of Klingons in this quadrant */
+	enemies     int /* number of enemies in this quadrant */
 	holes       int /* number of black holes in this quadrant */
 	scanned     int /* star chart entry (see below) */
 	stars       int /* number of stars in this quadrant */
@@ -243,8 +243,8 @@ type Move struct {
 var move Move
 
 type Etc struct {
-	klingon [MAXKLQUAD]kling /* sorted Klingon list */
-	nkling  int              /* number of Klingons in this sector */
+	enemyList  [MAXKLQUAD]enemy /* sorted enemy list */
+	enemyCount int              /* number of enemies in this sector */
 	/* < 0 means automatic override mode */
 	starbase   xy       /* starbase in current quadrant */
 	snapshot   snapshot /*snapshot for time warp */
@@ -261,7 +261,7 @@ type snapshot struct {
 
 var etc Etc
 
-type kling struct {
+type enemy struct {
 	x, y    int     /* coordinates */
 	power   int     /* power left */
 	dist    float64 /* distance to Enterprise */

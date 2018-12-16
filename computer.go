@@ -102,13 +102,13 @@ func computer(v int) {
 			if check_out(SRSCAN) {
 				break
 			}
-			if etc.nkling <= 0 {
+			if etc.enemyCount <= 0 {
 				fmt.Printf("No %ss in this quadrant\n", names.enemy)
 			}
-			/* for each Klingon, give the course & distance */
-			for i := 0; i < etc.nkling; i++ {
-				fmt.Printf("%s at %d,%d", names.enemy, etc.klingon[i].x, etc.klingon[i].y)
-				course, dist = kalc(ship.quadx, ship.quady, etc.klingon[i].x, etc.klingon[i].y)
+			/* for each enemy, give the course & distance */
+			for i := 0; i < etc.enemyCount; i++ {
+				fmt.Printf("%s at %d,%d", names.enemy, etc.enemyList[i].x, etc.enemyList[i].y)
+				course, dist = kalc(ship.quadx, ship.quady, etc.enemyList[i].x, etc.enemyList[i].y)
 				prkalc(course, dist)
 			}
 

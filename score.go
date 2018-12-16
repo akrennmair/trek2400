@@ -11,8 +11,8 @@ func score() int {
 	)
 
 	fmt.Printf("\n*** Your score:\n")
-	u = game.killk
-	s = param.klingpwr / 4 * u
+	u = game.enemiesKilled
+	s = param.enemyPower / 4 * u
 	t = s
 	if t != 0 {
 		fmt.Printf("%d %ss killed\t\t\t%6d\n", u, names.enemy, t)
@@ -21,18 +21,18 @@ func score() int {
 	if r < 1.0 {
 		r = 1.0
 	}
-	r = float64(game.killk) / r
+	r = float64(game.enemiesKilled) / r
 	t = int(400 * r)
 	s += t
 	if t != 0 {
 		fmt.Printf("Kill rate %.2f %ss/stardate  \t%6d\n", names.enemy, r, t)
 	}
-	r = float64(now.klings)
-	r /= float64(game.killk + 1)
+	r = float64(now.enemies)
+	r /= float64(game.enemiesKilled + 1)
 	t = int(-400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", names.enemy, now.klings, t)
+		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", names.enemy, now.enemies, t)
 	}
 	if move.endgame > 0 {
 		u = game.skill

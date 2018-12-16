@@ -47,10 +47,10 @@ func lrscan(v int) {
 				q.scanned = 1000
 				continue
 			}
-			q.scanned = q.klings*100 + q.bases*10 + q.stars
+			q.scanned = q.enemies*100 + q.bases*10 + q.stars
 			fmt.Printf(" ")
-			if q.klings > 0 {
-				fmt.Printf("%s", color.RedString("%d", q.klings))
+			if q.enemies > 0 {
+				fmt.Printf("%s", color.RedString("%d", q.enemies))
 			} else {
 				fmt.Printf(" ")
 			}

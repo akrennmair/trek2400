@@ -111,17 +111,17 @@ func torped(v int) {
 				continue
 			case HOLE:
 				fmt.Printf("Torpedo disappears into a black hole\n")
-			case KLINGON:
-				for k := 0; k < etc.nkling; k++ {
-					if etc.klingon[k].x != ix || etc.klingon[k].y != iy {
+			case ENEMY:
+				for k := 0; k < etc.enemyCount; k++ {
+					if etc.enemyList[k].x != ix || etc.enemyList[k].y != iy {
 						continue
 					}
-					etc.klingon[k].power -= 500 + ranf(501)
-					if etc.klingon[k].power > 0 {
+					etc.enemyList[k].power -= 500 + ranf(501)
+					if etc.enemyList[k].power > 0 {
 						fmt.Printf("*** Hit on %s at %d,%d: extensive damages\n", names.enemy, ix, iy)
 						break
 					}
-					killk(ix, iy)
+					killEnemy(ix, iy)
 				}
 			case STAR:
 				nova(ix, iy)

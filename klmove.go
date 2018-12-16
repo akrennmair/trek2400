@@ -2,10 +2,10 @@ package main
 
 import "fmt"
 
-func klmove(fl bool) {
+func enemyMove(fl bool) {
 	var (
 		n              int
-		k              *kling
+		k              *enemy
 		dx, dy         float64
 		nextx, nexty   int
 		lookx, looky   int
@@ -16,11 +16,11 @@ func klmove(fl bool) {
 		i              int
 	)
 
-	for n = 0; n < etc.nkling; n++ {
-		k = &etc.klingon[n]
+	for n = 0; n < etc.enemyCount; n++ {
+		k = &etc.enemyList[n]
 		i = 100
 		if fl {
-			i = 100 * (k.power / param.klingpwr)
+			i = 100 * (k.power / param.enemyPower)
 		}
 
 		flint := 0
@@ -52,7 +52,7 @@ func klmove(fl bool) {
 			dy = -dy
 		}
 		fudgex, fudgey = 1, 1
-		/* try to move the klingon */
+		/* try to move the enemy */
 		nextx = k.x
 		nexty = k.y
 		for ; motion > 0; motion-- {
@@ -74,7 +74,7 @@ func klmove(fl bool) {
 					qy += 1
 				}
 
-				if qx < 0 || qx >= NQUADS || qy < 0 || qy >= NQUADS || quad[qx][qy].stars < 0 || quad[qx][qy].klings > MAXKLQUAD-1 {
+				if qx < 0 || qx >= NQUADS || qy < 0 || qy >= NQUADS || quad[qx][qy].stars < 0 || quad[qx][qy].enemies > MAXKLQUAD-1 {
 					break
 				}
 
@@ -91,10 +91,10 @@ func klmove(fl bool) {
 					}
 				}
 				sect[k.x][k.y] = EMPTY
-				quad[qx][qy].klings += 1
-				etc.nkling -= 1
-				*k = etc.klingon[etc.nkling]
-				quad[ship.quadx][ship.quady].klings -= 1
+				quad[qx][qy].enemies += 1
+				etc.enemyCount -= 1
+				*k = etc.enemyList[etc.enemyCount]
+				quad[ship.quadx][ship.quady].enemies -= 1
 				k = nil
 				break
 			}
@@ -121,7 +121,7 @@ func klmove(fl bool) {
 			}
 			sect[k.x][k.y] = EMPTY
 			k.x, k.y = nextx, nexty
-			sect[nextx][nexty] = KLINGON
+			sect[nextx][nexty] = ENEMY
 		}
 	}
 	compkldist(false)

@@ -34,7 +34,7 @@ func srscan(f int) {
 	if f >= 0 {
 		fmt.Printf("\nShort range sensor scan\n")
 		q = &quad[ship.quadx][ship.quady]
-		q.scanned = q.klings*100 + q.bases*10 + q.stars
+		q.scanned = q.enemies*100 + q.bases*10 + q.stars
 		fmt.Printf(" ")
 		for i := 0; i < NSECTS; i++ {
 			fmt.Printf("%d ", i)
@@ -53,7 +53,7 @@ func srscan(f int) {
 					s = color.CyanString("%c ", c)
 				case STAR:
 					s = color.YellowString("%c ", c)
-				case KLINGON:
+				case ENEMY:
 					s = color.RedString("%c ", c)
 				case ENTERPRISE, QUEENE:
 					s = color.HiWhiteString("%c ", c)
@@ -95,7 +95,7 @@ func srscan(f int) {
 				percent = 100 * ship.shield / param.shield
 				fmt.Printf("shields       %s, %d%%", s, percent)
 			case 7:
-				fmt.Printf("%ss left %d", names.enemy, now.klings)
+				fmt.Printf("%ss left %d", names.enemy, now.enemies)
 			case 8:
 				fmt.Printf("time left     %.2f", now.time)
 			case 9:
@@ -112,7 +112,7 @@ func srscan(f int) {
 	if f < 0 {
 		fmt.Printf("current crew  %d\n", ship.crew)
 		fmt.Printf("brig space    %d\n", ship.brigfree)
-		fmt.Printf("%s power %d\n", names.enemy, param.klingpwr)
+		fmt.Printf("%s power %d\n", names.enemy, param.enemyPower)
 		l := game.length - 1
 		if game.length > 2 {
 			l--

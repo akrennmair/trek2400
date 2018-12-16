@@ -17,18 +17,18 @@ func initquad(f int) {
 		return
 	}
 
-	etc.nkling = q.klings
+	etc.enemyCount = q.enemies
 	nbases = q.bases
 	nstars = q.stars
 	nholes = q.holes
 
-	if etc.nkling > 0 && !etc.firstContact {
+	if etc.enemyCount > 0 && !etc.firstContact {
 		etc.firstContact = true
 		printEnemyGreeting()
 	}
 
 	/* have we blundered into a battle zone w/ shields down? */
-	if etc.nkling > 0 && f == 0 {
+	if etc.enemyCount > 0 && f == 0 {
 		fmt.Printf("Condition RED\n")
 		ship.cond = RED
 		if !damaged(COMPUTER) {
@@ -46,14 +46,14 @@ func initquad(f int) {
 	/* initialize Enterprise */
 	sect[ship.sectx][ship.secty] = ship.ship
 
-	/* initialize Klingons */
-	for i := 0; i < etc.nkling; i++ {
+	/* initialize enemies */
+	for i := 0; i < etc.enemyCount; i++ {
 		rx, ry = sector()
-		sect[rx][ry] = KLINGON
-		etc.klingon[i].x = rx
-		etc.klingon[i].y = ry
-		etc.klingon[i].power = param.klingpwr
-		etc.klingon[i].srndreq = false
+		sect[rx][ry] = ENEMY
+		etc.enemyList[i].x = rx
+		etc.enemyList[i].y = ry
+		etc.enemyList[i].power = param.enemyPower
+		etc.enemyList[i].srndreq = false
 	}
 
 	compkldist(true)

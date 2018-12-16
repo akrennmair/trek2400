@@ -42,7 +42,7 @@ func domove(ramflag int, course int, p_time float64, speed float64) float64 {
 	/****  TEMPORARY CODE == DEBUGGING  ****/
 	evtime = now.eventptr[E_LRTB].date - now.date
 
-	if p_time > evtime && etc.nkling < 3 {
+	if p_time > evtime && etc.enemyCount < 3 {
 		/* then we got a LRTB */
 		evtime += 0.005
 		p_time = evtime

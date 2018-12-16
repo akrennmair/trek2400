@@ -49,14 +49,14 @@ func destruct(v int) {
 	/* let's see what we can blow up!!!! */
 	zap = 20.0 * float64(ship.energy)
 	game.deaths += ship.crew
-	for i := 0; i < etc.nkling; {
-		if float64(etc.klingon[i].power)*etc.klingon[i].dist <= zap {
-			killk(etc.klingon[i].x, etc.klingon[i].y)
+	for i := 0; i < etc.enemyCount; {
+		if float64(etc.enemyList[i].power)*etc.enemyList[i].dist <= zap {
+			killEnemy(etc.enemyList[i].x, etc.enemyList[i].y)
 		} else {
 			i++
 		}
 	}
-	/* if we didn't kill the last Klingon (detected by killk), */
+	/* if we didn't kill the last enemy (detected by killEnemy), */
 	/* then we lose.... */
 	lose(L_DSTRCT)
 }

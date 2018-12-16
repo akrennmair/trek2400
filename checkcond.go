@@ -13,7 +13,7 @@ func checkcond() {
 		lose(L_NOCREW)
 	}
 
-	if etc.nkling < 0 {
+	if etc.enemyCount < 0 {
 		return
 	}
 
@@ -25,7 +25,7 @@ func checkcond() {
 		lose(L_SNOVA)
 	}
 
-	if etc.nkling <= 0 {
+	if etc.enemyCount <= 0 {
 		killd(ship.quadx, ship.quady, 1)
 	}
 
@@ -33,7 +33,7 @@ func checkcond() {
 		return
 	}
 
-	if etc.nkling > 0 {
+	if etc.enemyCount > 0 {
 		ship.cond = RED
 		return
 	}

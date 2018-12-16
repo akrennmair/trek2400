@@ -68,15 +68,15 @@ func snova(x, y int) {
 		}
 	}
 
-	dx = q.klings
+	dx = q.enemies
 	dy = q.stars
-	now.klings -= dx
+	now.enemies -= dx
 	if x >= 0 {
 		game.kills += dy
 		if q.bases != 0 {
 			killb(qx, qy)
 		}
-		game.killk += dx
+		game.enemiesKilled += dx
 	} else {
 		if q.bases != 0 {
 			killb(qx, qy)
@@ -88,8 +88,8 @@ func snova(x, y int) {
 	}
 	killd(qx, qy, b)
 	q.stars = -1
-	q.klings = 0
-	if now.klings <= 0 {
+	q.enemies = 0
+	if now.enemies <= 0 {
 		fmt.Printf("Lucky devil, that supernova destroyed the last %s\n", names.enemy)
 		win()
 	}

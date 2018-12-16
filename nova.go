@@ -34,8 +34,8 @@ func nova(x, y int) {
 			switch se {
 			case EMPTY, HOLE:
 				// nothing
-			case KLINGON:
-				killk(i, j)
+			case ENEMY:
+				killEnemy(i, j)
 			case STAR:
 				nova(i, j)
 			case INHABIT:

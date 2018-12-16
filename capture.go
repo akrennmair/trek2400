@@ -5,7 +5,7 @@ import "fmt"
 func capture(v int) {
 	var (
 		i int
-		k *kling
+		k *enemy
 		x float64
 	)
 
@@ -21,36 +21,36 @@ func capture(v int) {
 	}
 
 	/* find out if there are any at all */
-	if etc.nkling <= 0 {
+	if etc.enemyCount <= 0 {
 		fmt.Printf("%s: Getting no response, sir\n", names.comms)
 		return
 	}
 
-	/* if there is more than one Klingon, find out which one */
-	k = selectklingon()
+	/* if there is more than one enemy, find out which one */
+	k = selectEnemy()
 	move.free = false
 	move.time = 0.05
 
-	/* check out that Klingon */
+	/* check out that enemy */
 	k.srndreq = true
-	x = float64(param.klingpwr)
+	x = float64(param.enemyPower)
 	x *= float64(ship.energy)
-	x /= float64(k.power * etc.nkling)
+	x /= float64(k.power * etc.enemyCount)
 	x *= param.srndrprob
 	i = int(x)
 	if i > ranf(100) {
 		/* guess what, he surrendered!!! */
 		fmt.Printf("%s at %d,%d surrenders\n", names.enemy, k.x, k.y)
-		i = ranf(param.klingcrew)
+		i = ranf(param.enemyCrew)
 		if i > 0 {
-			fmt.Printf("%d %ss commit suicide rather than be taken captive\n", names.enemy, param.klingcrew-i)
+			fmt.Printf("%d %ss commit suicide rather than be taken captive\n", names.enemy, param.enemyCrew-i)
 		}
 		if i > ship.brigfree {
 			i = ship.brigfree
 		}
 		ship.brigfree -= i
 		fmt.Printf("%d captives taken", i)
-		killk(k.x, k.y)
+		killEnemy(k.x, k.y)
 		return
 	}
 
@@ -58,14 +58,14 @@ func capture(v int) {
 	fmt.Printf("Fat chance, captain\n")
 }
 
-func selectklingon() *kling {
+func selectEnemy() *enemy {
 	var i int
 
-	if etc.nkling < 2 {
+	if etc.enemyCount < 2 {
 		i = 0
 	} else {
-		i = ranf(etc.nkling)
+		i = ranf(etc.enemyCount)
 	}
 
-	return &etc.klingon[i]
+	return &etc.enemyList[i]
 }
