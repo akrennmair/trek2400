@@ -175,7 +175,7 @@ func setup() {
 	param.stopengy = 50
 	param.shupengy = 40
 	i = game.skill
-	param.enemyPower = 100 + period.enemyPowerStep*i
+	param.enemyPower = period.initialEnemyPower + period.enemyPowerStep*i
 	if i >= 6 {
 		param.enemyPower += period.enemyPowerStep
 	}

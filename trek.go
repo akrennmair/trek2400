@@ -294,60 +294,64 @@ type Period struct {
 	shipname string
 	shipid   string
 
-	energy         int
-	torped         int
-	shield         int
-	crew           int
-	brigfree       int
-	enemyPowerStep int
-	cloakenergy    int
-	energylow      int
+	energy      int
+	torped      int
+	shield      int
+	crew        int
+	brigfree    int
+	cloakenergy int
+	energylow   int
+
+	initialEnemyPower int
+	enemyPowerStep    int
 }
 
 var period Period
 
 var tosPeriod = Period{
-	comms:           "Uhura",
-	helmsman:        "Sulu",
-	doctor:          "McCoy",
-	navigator:       "Chekov",
-	firstOfficer:    "Spock",
-	engineer:        "Scotty",
-	captain:         "Kirk",
-	captainNickName: "Jim",
-	yeoman:          "Yeoman Rand",
-	enemy:           "Klingon",
-	shipname:        "Enterprise",
-	shipid:          "NCC-1701",
-	energy:          5000,
-	torped:          10,
-	shield:          1500,
-	crew:            387,
-	brigfree:        400,
-	enemyPowerStep:  150,
-	cloakenergy:     1000,
-	energylow:       1000,
+	comms:             "Uhura",
+	helmsman:          "Sulu",
+	doctor:            "McCoy",
+	navigator:         "Chekov",
+	firstOfficer:      "Spock",
+	engineer:          "Scotty",
+	captain:           "Kirk",
+	captainNickName:   "Jim",
+	yeoman:            "Yeoman Rand",
+	enemy:             "Klingon",
+	shipname:          "Enterprise",
+	shipid:            "NCC-1701",
+	energy:            5000,
+	torped:            10,
+	shield:            1500,
+	crew:              387,
+	brigfree:          400,
+	cloakenergy:       1000,
+	energylow:         1000,
+	initialEnemyPower: 100,
+	enemyPowerStep:    150,
 }
 
 var tngPeriod = Period{
-	comms:           "Worf",
-	helmsman:        "Data",
-	doctor:          "Dr. Crusher",
-	navigator:       "Tasha Yar",
-	firstOfficer:    "Riker",
-	engineer:        "LaForge",
-	captain:         "Picard",
-	captainNickName: "Jean-Luc",
-	yeoman:          "Wesley Crusher",
-	enemy:           "Romulan",
-	shipname:        "Enterprise-D",
-	shipid:          "NCC-1701-D",
-	energy:          5000,
-	torped:          10,
-	shield:          1500,
-	crew:            387,
-	brigfree:        400,
-	enemyPowerStep:  150,
-	cloakenergy:     1000,
-	energylow:       1000,
+	comms:             "Worf",
+	helmsman:          "Data",
+	doctor:            "Dr. Crusher",
+	navigator:         "Tasha Yar",
+	firstOfficer:      "Riker",
+	engineer:          "LaForge",
+	captain:           "Picard",
+	captainNickName:   "Jean-Luc",
+	yeoman:            "Wesley Crusher",
+	enemy:             "Romulan",
+	shipname:          "Enterprise-D",
+	shipid:            "NCC-1701-D",
+	energy:            25000,
+	torped:            25,
+	shield:            3000,
+	crew:              1014,
+	brigfree:          800,
+	cloakenergy:       2000,
+	energylow:         2000,
+	initialEnemyPower: 300,
+	enemyPowerStep:    200,
 }
