@@ -26,6 +26,7 @@ var (
 	shiptab = []cvntab{
 		{abrev: "", full: "ncc1701", intValue: TOS},
 		{abrev: "", full: "ent-d", intValue: TNG},
+		{abrev: "", full: "ent-e", intValue: ENTE},
 	}
 )
 
@@ -65,6 +66,8 @@ func setup() {
 		period = tosPeriod
 	case TNG:
 		period = tngPeriod
+	case ENTE:
+		period = entePeriod
 		// TODO: implement more time periods.
 	}
 
@@ -104,6 +107,11 @@ func setup() {
 	}
 	if param.enemies <= i { // numerical overflow problem?! research
 		now.enemies = 127
+		param.enemies = now.enemies
+	}
+
+	if game.period == ENTE { // there is only ever one borg cube.
+		now.enemies = 1
 		param.enemies = now.enemies
 	}
 
@@ -295,7 +303,7 @@ func setup() {
 	}
 
 	/* initialize this quadrant */
-	fmt.Printf("%d %ss\n%d starbase", param.enemies, period.enemy, param.bases)
+	fmt.Printf("%d %s%s\n%d starbase", param.enemies, period.enemy, plural(param.enemies), param.bases)
 	if param.bases > 1 {
 		fmt.Printf("s")
 	}

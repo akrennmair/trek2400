@@ -76,6 +76,7 @@ const (
 
 	KLINGON = 'K'
 	ROMULAN = 'R'
+	BORG    = 'B'
 
 	/* you lose codes */
 	L_NOTIME   = 1  /* ran out of time */
@@ -95,8 +96,9 @@ const (
 	TOOLARGE = 1e50
 
 	/* time periods */
-	TOS = 1
-	TNG = 2
+	TOS  = 1
+	TNG  = 2
+	ENTE = 3
 )
 
 type Game struct {
@@ -354,4 +356,28 @@ var tngPeriod = Period{
 	energylow:         2000,
 	initialEnemyPower: 300,
 	enemyPowerStep:    200,
+}
+
+var entePeriod = Period{
+	comms:             "Worf",
+	helmsman:          "Data",
+	doctor:            "Dr. Crusher",
+	navigator:         "Lt. Barclay",
+	firstOfficer:      "Riker",
+	engineer:          "LaForge",
+	captain:           "Picard",
+	captainNickName:   "Jean-Luc",
+	yeoman:            "Lt. Hawk",
+	enemy:             "Borg",
+	shipname:          "Enterprise-E",
+	shipid:            "NCC-1701-E",
+	energy:            35000,
+	torped:            40,
+	shield:            4000,
+	crew:              885,
+	brigfree:          800,
+	cloakenergy:       2000,
+	energylow:         2000,
+	initialEnemyPower: 800,
+	enemyPowerStep:    800,
 }

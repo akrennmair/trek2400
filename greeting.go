@@ -32,10 +32,21 @@ func printEnemyGreeting() {
 		fmt.Printf("  `-.__                           / _/                 `--.__   \\|\n")
 		fmt.Printf("       `-._u                    .'-'                         `-. |\n")
 		fmt.Printf("            `---.___________.--'                                \\|\n")
+	case ENTE:
+		fmt.Println("We are the Borg. Lower your shields and surrender your ships.\nWe will add your biological and technological distinctiveness to our own.\nYour culture will adapt to service us. Resistance is futile.")
+		fmt.Println(`
+	___________
+   /-/_"/-/_/-/|
+  /"-/-_"/-_//||
+ /__________/|/|
+ |"|_'='-]:+|/||
+ |-+-|.|_'-"||//
+ |[".[:!+-'=|//
+ |='!+|-:]|-|/
+  ----------`)
 	}
 
 	fmt.Printf("\n")
-
 }
 
 var proverbs = []string{

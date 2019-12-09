@@ -2,6 +2,13 @@ package main
 
 import "fmt"
 
+func plural(i int) string {
+	if i > 1 {
+		return "s"
+	}
+	return ""
+}
+
 func score() int {
 	var (
 		u int
@@ -15,7 +22,7 @@ func score() int {
 	s = param.enemyPower / 4 * u
 	t = s
 	if t != 0 {
-		fmt.Printf("%d %ss killed\t\t\t%6d\n", u, period.enemy, t)
+		fmt.Printf("%d %s%s killed\t\t\t%6d\n", u, period.enemy, plural(u), t)
 	}
 	r = now.date - param.date
 	if r < 1.0 {
@@ -32,7 +39,7 @@ func score() int {
 	t = int(-400 * r)
 	s += t
 	if t != 0 {
-		fmt.Printf("Penalty for %d %ss remaining\t%6d\n", now.enemies, period.enemy, t)
+		fmt.Printf("Penalty for %d %s%s remaining\t%6d\n", now.enemies, period.enemy, plural(now.enemies), t)
 	}
 	if move.endgame > 0 {
 		u = game.skill
@@ -76,7 +83,7 @@ func score() int {
 	t = 3 * u
 	s += t
 	if t != 0 {
-		fmt.Printf("%d %ss captured\t\t\t%6d\n", u, period.enemy, t)
+		fmt.Printf("%d %s%s captured\t\t\t%6d\n", u, period.enemy, plural(u), t)
 	}
 	u = game.deaths
 	t = -u

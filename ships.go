@@ -8,6 +8,8 @@ func printShip() {
 		printEnterprise()
 	case TNG:
 		printEnterpriseD()
+	case ENTE:
+		printEnterpriseE()
 	}
 }
 
@@ -32,12 +34,25 @@ func printEnterpriseD() {
 	fmt.Printf("                `--------'\n")
 }
 
+func printEnterpriseE() {
+	fmt.Printf("                                         __,----.____________________________\n")
+	fmt.Printf("        ____.------------.____          /___\\ |>=============================|\n")
+	fmt.Printf("  __.--'----------------------`--.__     `--.___.---,-----,-----------------'\n")
+	fmt.Printf("======================================            .'   _.'\n")
+	fmt.Printf("      `---------------.--------'     `----._____.'___.'____\n")
+	fmt.Printf("                       `.========       >-----___________|_\\\n")
+	fmt.Printf("                         `.                .-'\n")
+	fmt.Printf("                           `--.______.----'\n")
+}
+
 func enemyShipIcon(c byte) byte {
 	switch game.period {
 	case TOS:
 		return KLINGON
 	case TNG:
 		return ROMULAN
+	case ENTE:
+		return BORG
 	default:
 		return c
 	}
